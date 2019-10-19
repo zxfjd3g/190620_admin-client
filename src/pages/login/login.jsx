@@ -9,13 +9,17 @@ import './login.less'
 
 const { Item } = Form // 必须在所有import的下面
 
-export default class Login extends Component {
+class Login extends Component {
 
   handleSubmit = () => {
 
   }
 
   render() {
+    console.log('Login render() ', this.props.form )
+    const { getFieldDecorator } = this.props.form;
+
+
     return (
       <div className="login">
         <header className="login-header">
@@ -26,10 +30,16 @@ export default class Login extends Component {
           <h1>用户登陆</h1>
           <Form onSubmit={this.handleSubmit} className="login-form">
             <Item>
-              <Input
-                  prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
-                  placeholder="用户名"
-                />
+              {
+                getFieldDecorator('username', {
+                  rules: [{ required: true, message: 'Please input your username!' }],
+                })(
+                  <Input
+                      prefix={<Icon type="user" style={{ color: 'rgba(0,0,0,.25)' }} />}
+                      placeholder="用户名"
+                    />
+                )
+              }
             </Item>
             <Form.Item>
               <Input
@@ -47,3 +57,31 @@ export default class Login extends Component {
     )
   }
 }
+
+
+const LoginWrap = Form.create()(Login)
+
+export default LoginWrap
+
+/* 
+1. 高阶函数
+
+2. 高阶组件
+
+Form.create()(Login), 返回一个新组件
+  class LoginWrap extends Component {
+    render () {
+      return <Login form={强大的form对象}/>
+    }
+  }
+  // LoginWrap被注册成了路由
+*/
+
+
+
+
+/* 
+1. 收集输入数据
+2. 前台表单验证
+3. 提交登陆的ajax请求
+*/
