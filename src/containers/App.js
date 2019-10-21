@@ -33,3 +33,15 @@ export default connect(
   state => ({count: state}),  // 指定向ui组件传递哪些一般属性  count
   {increment, decrement} // 指定向ui组件传递哪些函数属性  increment(){} / decrement(){}
 )(Counter)  // count
+
+/* 
+ 指定: 
+    (number) => ({type: INCREEMENT, data: number})
+ 内部会包装成一个新的函数传入UI组件
+    function fn (...args){   // fn(1, 2) ==> increment(1, 2)   参数透传
+      dispatch(increment(...args))
+    }
+    number => dispatch(increment(number))
+
+ this.props.increment(3)
+*/
