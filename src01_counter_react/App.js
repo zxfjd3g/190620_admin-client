@@ -1,11 +1,9 @@
 import React, { Component } from 'react'
-import PropTypes from 'prop-types'
-import { increment, decrement } from './redux/action-creators'
 
 export default class App extends Component {
 
-  static propTypes = {
-    store: PropTypes.object.isRequired
+  state = { // 包含n个状态数据的对象
+    count: 0, // 点击的次数
   }
 
   // 创建一个ref容器, 保存到组件对象上
@@ -13,34 +11,47 @@ export default class App extends Component {
 
   increment = () => {
     const number = this.numberRef.current.value * 1
-    // 通知store做增加更新
-    this.props.store.dispatch(increment(number))
+    const count = this.state.count + number
+    // 更新状态
+    this.setState({
+      count
+    })
   }
 
   decrement = () => {
     const number = this.numberRef.current.value * 1
-    // 通知store做增加更新
-    this.props.store.dispatch(decrement(number))
+    const count = this.state.count - number
+    // 更新状态
+    this.setState({
+      count
+    })
   }
 
   incrementIfOdd = () => {
     const number = this.numberRef.current.value * 1
-    const count = this.props.store.getState()
+    const count = this.state.count
     if (count %2=== 1) {
-      this.props.store.dispatch(increment(number))
+      // 更新状态
+    this.setState({
+      count: count + number
+    })
     }
   }
 
   incrementAsync = () => {
     const number = this.numberRef.current.value * 1
     setTimeout(() => {
-      this.props.store.dispatch(increment(number))
+      const count = this.state.count + number
+      // 更新状态
+      this.setState({
+        count
+      })
     }, 1000);
   }
 
   render() {
 
-    const count = this.props.store.getState() // 得到store中的状态数据
+    const count = this.state.count
 
     return (
       <div>
