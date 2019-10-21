@@ -52,7 +52,7 @@
 				内部管理着: state和reducer
 				提供方法: getState(), dispatch(action), subscribe(listener)
 
-# 4. redux工作流程
+# 4. redux工作流程图
 
 		
 # 5. 使用redux及相关库编码
