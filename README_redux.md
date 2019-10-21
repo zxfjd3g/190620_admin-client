@@ -53,7 +53,7 @@
 				提供方法: getState(), dispatch(action), subscribe(listener)
 
 # 4. redux工作流程图
-
+![](https://github.com/zxfjd3g/190620_admin-client/blob/redux/redux%E6%B5%81%E7%A8%8B%E7%BB%93%E6%9E%84.png?raw=true)
 		
 # 5. 使用redux及相关库编码
 		需要引入的库: 
