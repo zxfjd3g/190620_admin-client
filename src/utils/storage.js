@@ -20,6 +20,6 @@ export function setItem(key, value) {
 
 export function removeItem(key) {
   // localStorage.removeItem(key)
-  store.removeItem(key)
+  store.remove(key)
 }
 

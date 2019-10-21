@@ -12,6 +12,7 @@ import qs from 'qs'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' // 颜色可以强行修改
 import { message } from 'antd'
+import { removeUser } from '../redux/action-creators/user'
 
 import store from '../redux/store'
 import { IS_DEV } from "../config/index"
@@ -63,8 +64,17 @@ instance.interceptors.response.use(
   // 3). 统一处理请求异常, 外部调用者不用再处理请求异常
   error => { // ajax请求异常
     NProgress.done() // 隐藏请求进度
-
-    message.error('请求失败: ' + error.message)
+    console.log('------------')
+    const {status, data: {msg}} = error.response
+    if (status===401) {
+      store.dispatch(removeUser())
+      message.error(msg)
+    } if (status===404) {
+      message.error('请求资源不存在')
+    } else {
+      message.error('请求失败: ' + error.message || '未知错误')
+    }
+    
     // 返回一个pending状态的promise ==> 中断promise链
     return new Promise(() => {})
   }

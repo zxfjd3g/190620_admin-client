@@ -1,5 +1,5 @@
 const {override, fixBabelImports, addLessLoader, addWebpackAlias, addDecoratorsLegacy} = require('customize-cra');
-const { join } = require('path');
+const { resolve } = require('path');
 
 module.exports = override(
   // 配置babel-plugin-import ==> 只打包import模块及css
@@ -21,11 +21,11 @@ module.exports = override(
 
   // 添加webpack alias语法： 优点：可以简化路径  缺点：没有路径提示
   addWebpackAlias({
-    '@utils': join(__dirname, 'src/utils'),
-    '@config': join(__dirname, 'src/config'),
-    '@actions': join(__dirname, 'src/redux/action-creators'),
-    '@api': join(__dirname, 'src/api'),
-    '@components': join(__dirname, 'src/components'),
-    '@containers': join(__dirname, 'src/containers'),
+    '@utils': resolve(__dirname, 'src/utils'),
+    '@config': resolve(__dirname, 'src/config'),
+    '@actions': resolve(__dirname, 'src/redux/action-creators'),
+    '@api': resolve(__dirname, 'src/api'),
+    '@components': resolve(__dirname, 'src/components'),
+    '@containers': resolve(__dirname, 'src/containers'),
   })
 );

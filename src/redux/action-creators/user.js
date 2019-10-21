@@ -25,7 +25,6 @@ export const loginAsync = (username, password) => {
   return async (dispatch) => {
     try {
       const {user, token} = await reqLogin({username, password})
-      debugger
       // 请求登陆成功, 分发同步action
       dispatch(loginSuccess({ token, user }))
     } catch(error) { // 本质是message
