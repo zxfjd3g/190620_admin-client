@@ -3,12 +3,22 @@
 */
 import React, { Component } from 'react'
 import { Form, Icon, Input, Button } from 'antd'
+import { connect } from 'react-redux'
 
+import withCheckLogin from '../with-check-login'
+import { loginAsync } from '../../redux/action-creators/user'
 import logo from './images/logo.png'
-import './login.less'
+import './index.less'
 
 const { Item } = Form // 必须在所有import的下面
 
+
+@withCheckLogin
+@connect(
+  state => ({}),
+  { loginAsync }
+)
+@Form.create()  // 需要安装@babel/plugin-proposal-decorators
 class Login extends Component {
 
   handleSubmit = (event) => {
@@ -18,6 +28,9 @@ class Login extends Component {
     this.props.form.validateFields((err, values) => {
       if (!err) { // 验证成功
         console.log('发ajax请求', values)
+        const {username, password} = values
+        this.props.loginAsync(username, password)
+        this.props.form.resetFields(['password'])
       } else {
         // 什么都不用写
       }
@@ -128,8 +141,8 @@ class Login extends Component {
 
 // const WrappedLogin = Form.create()(Login)
 // export default WrappedLogin
-export default Form.create()(Login)
-
+// export default Form.create()(Login)
+export default Login
 /* 
 1. 高阶函数
   定义: 如果函数接收的参数是函数或者返回值是函数
@@ -159,9 +172,6 @@ Form.create()(Login), 接收一个Form组件, 返回一个新组件
   const LoginWrap = Form.create()(Login)
   // LoginWrap被注册成了路由
 */
-
-
-
 
 /* 
 1. 收集输入数据

@@ -2,8 +2,10 @@
 后台管理的一级路由组件
 */
 import React, { Component } from 'react'
+import withCheckLogin from '../../containers/with-check-login'
 
-export default class Admin extends Component {
+@withCheckLogin
+class Admin extends Component {
 
   render() {
     return (
@@ -13,3 +15,4 @@ export default class Admin extends Component {
     )
   }
 }
+export default Admin
