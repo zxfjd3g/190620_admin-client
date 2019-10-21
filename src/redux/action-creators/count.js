@@ -8,10 +8,11 @@ n个用于创建action对象的工厂函数
     }
 */
 
+
 import {
   DECREEMENT,
   INCREEMENT
-} from './action-types'
+} from '../action-types'
 
 // 同步增加
 export const increment = (number) => ({type: INCREEMENT, data: number})
@@ -30,6 +31,3 @@ export const incrementAsync = (number, delayTime) => {
     }, delayTime);
   }
 }
-
-
-
