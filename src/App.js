@@ -17,7 +17,7 @@ export default class App extends Component {
     return (
       <HashRouter>
         <Switch> {/* /login/xxx   默认使用不完全匹配 | 使用第一个匹配的路由 */}
-          <Route path="/login" component={Login}/>
+          <Route path="/login" component={Login} exact/>
           <Route path="/" component={Admin}/>
         </Switch>
       </HashRouter>

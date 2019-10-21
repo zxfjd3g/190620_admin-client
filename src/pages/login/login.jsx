@@ -126,9 +126,9 @@ class Login extends Component {
 }
 
 
-const LoginWrap = Form.create()(Login)
-
-export default LoginWrap
+// const WrappedLogin = Form.create()(Login)
+// export default WrappedLogin
+export default Form.create()(Login)
 
 /* 
 1. 高阶函数
