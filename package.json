@@ -10,6 +10,7 @@
     "babel-plugin-import": "^1.11.0",
     "bizcharts": "^3.5.2",
     "customize-cra": "^0.2.12",
+    "dayjs": "^1.8.16",
     "draft-js": "0.10.5",
     "draftjs-to-html": "^0.8.4",
     "echarts": "^4.2.1",
@@ -30,6 +31,7 @@
     "redux": "^4.0.1",
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
+    "screenfull": "^5.0.0",
     "store": "^2.0.12"
   },
   "scripts": {

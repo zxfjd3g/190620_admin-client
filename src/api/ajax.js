@@ -12,7 +12,7 @@ import qs from 'qs'
 import NProgress from 'nprogress'
 import 'nprogress/nprogress.css' // 颜色可以强行修改
 import { message } from 'antd'
-import { removeUser } from '../redux/action-creators/user'
+import { removeUserToken } from '../redux/action-creators/user'
 
 import store from '../redux/store'
 import { IS_DEV } from "../config/index"
@@ -70,7 +70,7 @@ instance.interceptors.response.use(
     if (status===401) {
       console.log('-----', history.location.pathname)
       if (history.location.pathname!=='/login') { // 如果当前没有在登陆界面, 退出登陆自动跳转到登陆界面
-        store.dispatch(removeUser())
+        store.dispatch(removeUserToken())
         message.error(msg)
       }
     } else if (status===404) {

@@ -1,7 +1,9 @@
 import React, {Component} from 'react'
 import {Link, withRouter} from 'react-router-dom'
 import {Menu, Icon} from 'antd'
+import { connect } from 'react-redux'
 
+import {setHeaderTitle} from '../../../redux/action-creators/header-title'
 import menuConfig from '../../../config/menu-config'
 import logo from '../../../assets/images/logo.png'
 import './index.less'
@@ -11,6 +13,10 @@ const SubMenu = Menu.SubMenu
 /*
 左侧导航组件
  */
+@connect(
+  state => ({}),
+  {setHeaderTitle}
+)
 @withRouter
 class LeftNav extends Component {
 
@@ -25,9 +31,13 @@ class LeftNav extends Component {
 
     return menuList.reduce((pre, item) => {
       if (!item.children) {
+        if (path===item.key) {
+          this.props.setHeaderTitle(item.title)
+        }
+
         pre.push((
           <Menu.Item key={item.key}>
-            <Link to={item.key}>
+            <Link to={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
               <Icon type={item.icon}/>
               <span>{item.title}</span>
             </Link>
@@ -91,7 +101,7 @@ class LeftNav extends Component {
               </span>
             }
           >
-            {this.getMenuNodes(item.children)}
+            {this.getMenuNodes2(item.children)}
           </SubMenu>
         )
       }
@@ -104,7 +114,7 @@ class LeftNav extends Component {
    */
   componentWillMount() {
     // this.menuNodes = this.getMenuNodes(menuConfig)
-    this.menuNodes = this.getMenuNodes2(menuConfig)
+    this.menuNodes = this.getMenuNodes(menuConfig)
   }
 
   render() {

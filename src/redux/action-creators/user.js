@@ -5,7 +5,7 @@ import { message } from 'antd'
 
 import {
   LOGIN_SUCCESS,
-  REMOVE_USER,
+  REMOVE_USER_TOKEN,
 } from '../action-types'
 import {
   reqLogin,
@@ -16,7 +16,7 @@ import {
 const loginSuccess = ({user, token}) => ({type: LOGIN_SUCCESS, data: {user, token}})
 
 // 删除用户的同步action
-export const removeUser = () => ({type: REMOVE_USER})
+export const removeUserToken = () => ({type: REMOVE_USER_TOKEN})
 
 /* 
 异步登陆

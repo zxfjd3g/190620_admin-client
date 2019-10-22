@@ -3,7 +3,7 @@
 */
 import {
   LOGIN_SUCCESS,
-  REMOVE_USER,
+  REMOVE_USER_TOKEN,
 } from '../action-types'
 
 import { getItem, setItem, removeItem } from '@utils/storage'
@@ -12,7 +12,7 @@ const userData = getItem('user')
 const token = getItem('token')
 // 初始化用户数据
 const initUser = {
-  hasLogin: !! (userData.username && token),
+  hasLogin: !!(userData.username && token),
   user: userData,
   token: token
 }
@@ -30,7 +30,7 @@ export default function user(state = initUser, action) {
         user,
         token
       }
-    case REMOVE_USER :
+    case REMOVE_USER_TOKEN :
       removeItem('user')
       removeItem('token')
       return {
