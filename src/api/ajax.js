@@ -37,7 +37,7 @@ instance.interceptors.request.use(config => {
   // 如果状态数据中有token, 通过Authorization头携带token
   const token = store.getState().user.token
   if (token) {
-    config.headers['Authorization'] = token
+    config.headers['Authorization'] = 'atguigu_' + token
   }
   
   // 必须返回config对象
@@ -64,12 +64,11 @@ instance.interceptors.response.use(
   // 3). 统一处理请求异常, 外部调用者不用再处理请求异常
   error => { // ajax请求异常
     NProgress.done() // 隐藏请求进度
-    console.log('------------')
     const {status, data: {msg}} = error.response
     if (status===401) {
       store.dispatch(removeUser())
       message.error(msg)
-    } if (status===404) {
+    } else if (status===404) {
       message.error('请求资源不存在')
     } else {
       message.error('请求失败: ' + error.message || '未知错误')
