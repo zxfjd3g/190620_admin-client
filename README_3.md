@@ -17,7 +17,16 @@
 ## 编码要点
 ### 1. 搭建redux开发环境
 		1). 下载相关包
-		2). 创建相关的文件/文件夹
+		2). 创建相关的文件/文件夹: redux
+				action-creators
+						user.js
+						xxx.js
+				reducers
+						user.js
+						xxx.js
+						index.js
+				action-types.js
+				store.js
 
 ### 2. 测试接口
 		1). 接口文档
@@ -46,7 +55,22 @@
 				a. 显示一个错误提示: '请求出错: ' + error.message
 				b. 中断promise链: 返回pending状态的promise
 
-### 4. 使用装饰器语法简化高阶组件使用
+### 4. 登陆
+		1). 登陆的接口请求函数: reqLogin
+		2). 登陆的异步action creator: loginAsync
+		3). 保存user和token的同步action creator: saveUserToken 
+		4). 管理user和token数据的reducer
+		5). login组件分发登陆的异步action
+		6). login组件读取state中user的hasLogin数据, 如果为true自动跳转到admin
+		7). admin组件读取state中user的username和hasLogin数据, 如果hasLogin为false自动跳转到admin
+
+### 5. 退出登陆
+		1). 删除user和token的同步action creator: removeUserToken
+		2). 清除state中的user和token数据的reducer
+		3). admin组件中分发同步action
+
+
+### 6. 使用装饰器语法简化高阶组件使用
 		1). 下载: @babel/plugin-proposal-decorators
 		2). 添加配置: config.overrides.js中
 		3). 使用装饰器语法: 简化高阶组件的使用
