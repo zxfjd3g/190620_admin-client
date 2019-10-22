@@ -56,11 +56,12 @@ instance.interceptors.response.use(
         如果失败返回携带msg的错误, 外部具体请求处理错误
     */
     const result = response.data
-    if (result.status===0) {
-      return result.data || {}
-    } else {
-      return Promise.reject(result.msg || '未知错误!')
-    }
+    // if (result.status===0) {
+    //   return result.data || {}
+    // } else {
+    //   return Promise.reject(result.msg || '未知错误!')
+    // }
+    return result
   },
   // 3). 统一处理请求异常, 外部调用者不用再处理请求异常
   error => { // ajax请求异常

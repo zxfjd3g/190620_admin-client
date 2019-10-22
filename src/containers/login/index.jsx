@@ -7,7 +7,7 @@ import { connect } from 'react-redux'
 
 import withCheckLogin from '../with-check-login'
 import { loginAsync } from '../../redux/action-creators/user'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
 import './index.less'
 
 const { Item } = Form // 必须在所有import的下面

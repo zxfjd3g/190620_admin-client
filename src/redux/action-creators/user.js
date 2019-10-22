@@ -23,14 +23,12 @@ export const removeUser = () => ({type: REMOVE_USER})
 */
 export const loginAsync = (username, password) => {
   return async (dispatch) => {
-    try {
-      const {user, token} = await reqLogin({username, password})
-      // 请求登陆成功, 分发同步action
-      dispatch(loginSuccess({ token, user }))
-    } catch(error) { // 本质是message
-      
-      // 请求失败, 提示错误
-      message.error(error)
+    const {status, data: {user, token}={}, msg} = await reqLogin({username, password})
+    if (status===0) {
+      dispatch(loginSuccess({user, token}))
+    } else {
+      // 登陆失败, 提示错误
+      message.error(msg)
     }
   }
 }

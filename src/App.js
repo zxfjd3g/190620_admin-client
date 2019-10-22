@@ -7,7 +7,7 @@ import {Router, Route, Switch} from 'react-router-dom'
 
 import history from './history'
 import Login from "./containers/login"
-import Admin from "./containers/admin"
+import Admin from './containers/admin'
 
 export default class App extends Component {
 
