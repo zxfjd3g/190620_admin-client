@@ -4,12 +4,14 @@
 	自动(免)登陆
 
 ## 需要下载使用的相关插件
+	octotree: chrome插件, github仓库结构导航
 	全局nodemon: 带监视node, 修改代码自动重新运行
 	redux: 状态管理
 	react-redux: 简化redux使用
 	redux-thunk: redux异步编程
 	redux-devtools-extension: 为了chrome的redux调试
 	axios: 发ajax请求(与后台交互)
+	nprogress: 请求进度效果
 
 ## 编码要点
 ### 1. 搭建redux开发环境

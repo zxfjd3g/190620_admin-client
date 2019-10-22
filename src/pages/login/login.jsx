@@ -23,20 +23,27 @@ class Login extends Component {
 
         // axios.post('/login', values)
         // axios.post('/login', qs.stringify(values)) // username=admin&password=admin
-        ajax.post('/login2', qs.stringify(values)) // username=admin&password=admin
-          .then(response => {
-            const result = response.data
-            console.log('请求成功', result)
-            if (result.status===0) {
-              const {user, token} = result.data
-              console.log('登陆成功', user, token)
+        // ajax.post('/login2', qs.stringify(values)) // username=admin&password=admin
+        /* ajax.post('/login', values) // username=admin&password=admin
+          .then(({user, token}) => {
+            console.log('登陆成功', user, token )
+          })
+          .catch(error => { // 就是mesage值
+            console.log(error)
+          }) */
+        ajax.post('/login', values) // username=admin&password=admin
+          .then((result) => {
+
+            const {status, data: {user, token}={}, msg, xxx='abc'} = result // 嵌套解构 变量默认值
+            console.log('xxx', xxx)
+            if (status===0) {
+              console.log('登陆成功', user, token )
             } else {
-              console.log('登陆失败', result.msg)
+              console.log('登陆失败', msg)
             }
+            
           })
-          .catch(error => {
-            console.log('请求出错了', error.message)
-          })
+          
       } else {
         // 什么都不用写
       }
