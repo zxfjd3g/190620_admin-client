@@ -12,6 +12,7 @@
 		redux-devtools-extension: 为了chrome的redux调试
 		axios: 发ajax请求(与后台交互)
 		nprogress: 请求进度效果
+		@babel/plugin-proposal-decorators: 提供装饰器语法的babel插件
 
 ## 编码要点
 ### 1. 搭建redux开发环境
@@ -45,9 +46,13 @@
 				a. 显示一个错误提示: '请求出错: ' + error.message
 				b. 中断promise链: 返回pending状态的promise
 
+### 4. 使用装饰器语法简化高阶组件使用
+		1). 下载: @babel/plugin-proposal-decorators
+		2). 添加配置: config.overrides.js中
+		3). 使用装饰器语法: 简化高阶组件的使用
 
 ### 4. 使用store插件简化localStorage操作
 
 ### 5. 使用自定义高阶组件进行登陆检查
 
-### 6. 使用装饰器语法简化高阶组件使用
+

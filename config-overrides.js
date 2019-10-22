@@ -1,4 +1,4 @@
-const {override, fixBabelImports, addLessLoader} = require('customize-cra');
+const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy} = require('customize-cra');
 
 module.exports = override(
   // 配置babel-plugin-import ==> 只打包import模块及css
@@ -14,4 +14,6 @@ module.exports = override(
     javascriptEnabled: true,
     modifyVars: {'@primary-color': '#1DA57A'},
   }),
+  // 添加装饰器的配置
+  addDecoratorsLegacy(),
 );
