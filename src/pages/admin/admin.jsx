@@ -2,14 +2,20 @@
 后台管理的一级路由组件
 */
 import React, { Component } from 'react'
+import { connect } from 'react-redux'
 
-export default class Admin extends Component {
+class Admin extends Component {
 
   render() {
     return (
       <div>
-        Admin
+        Hello, {this.props.user.username}
       </div>
     )
   }
 }
+
+export default connect(
+  state => ({user: state.user.user}),
+  {}
+)(Admin)

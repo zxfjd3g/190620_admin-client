@@ -2,12 +2,16 @@
 登陆的一级路由组件
 */
 import React, { Component } from 'react'
+import {Redirect} from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
 import qs from 'qs'
+import { connect } from 'react-redux'
 
+import {loginAsync} from '../../redux/action-creators/user'
 import logo from './images/logo.png'
 import './login.less'
 import ajax from '../../api/ajax'
+
 
 const { Item } = Form // 必须在所有import的下面
 
@@ -19,7 +23,10 @@ class Login extends Component {
     // 对所有表单项进行统一的表单验证
     this.props.form.validateFields((err, values) => {
       if (!err) { // 验证成功
-        console.log('发ajax请求', values)
+        const {username, password} = values
+        console.log('发ajax请求', {username, password})
+
+        this.props.loginAsync(username, password)
 
         // axios.post('/login', values)
         // axios.post('/login', qs.stringify(values)) // username=admin&password=admin
@@ -31,7 +38,8 @@ class Login extends Component {
           .catch(error => { // 就是mesage值
             console.log(error)
           }) */
-        ajax.post('/login', values) // username=admin&password=admin
+
+        /* ajax.post('/login', values) // username=admin&password=admin
           .then((result) => {
 
             const {status, data: {user, token}={}, msg, xxx='abc'} = result // 嵌套解构 变量默认值
@@ -42,7 +50,8 @@ class Login extends Component {
               console.log('登陆失败', msg)
             }
             
-          })
+          }) */
+
           
       } else {
         // 什么都不用写
@@ -84,6 +93,13 @@ class Login extends Component {
 
   render() {
     console.log('Login render() ', this.props.form )
+
+    const {hasLogin} = this.props
+    if (hasLogin) { // 如果已经登陆, 自动跳转到admin界面
+      // this.props.history.replace('/') // 事件回调中使用
+      return <Redirect to="/"/> // 在render()中使用
+    }
+
     const { getFieldDecorator } = this.props.form;
 
 
@@ -154,7 +170,12 @@ class Login extends Component {
 
 // const WrappedLogin = Form.create()(Login)
 // export default WrappedLogin
-export default Form.create()(Login)
+export default connect(
+  state => ({hasLogin: state.user.hasLogin}),  // 用于显示的一般属性
+  {loginAsync} // 用于更新状态的函数属性
+)(Form.create()(Login))
+
+
 
 /* 
 1. 高阶函数
