@@ -14,7 +14,7 @@
 # 2. redux相关API
 		1). redux: 管理组件状态
 				redux中包含: createStore(), combineReducers(), applyMiddleware()
-				store对象: getState(), dispatch(), subscribe()
+				store对象: getState(), dispatch(action), subscribe(listener)
 				reducer函数: 根据原有的state和指定的action, 返回一个新的状态数据
 				action creator: 返回action的工厂函数 
 
@@ -22,6 +22,7 @@
 				<Provider store={store}>: 向所有的容器组件提供store
 				connect(
 					state => ({xxx: state.xxx}),
+					// dispatch => ({actionCreator1: (...args) => actionCreator1(...args)})
 					{actionCreator1, actionCreator2}
 				)(UI组件): 
 				产生的就是容器组件, 负责向UI组件传递标签属性, 
@@ -34,6 +35,7 @@
 				createStore(reducer, applyMiddleware(thunk))
 				// 异步action creator
 				const incrementAsync = (number) => {
+					// 立即返回action函数
 					return dispatch => {
 						执行异步任务
 						有结果后dispatch(同步action对象)
@@ -68,6 +70,7 @@
 				reducers
 						count.js
 						product.js
+						index.js
 				action-types.js
 				store.js
 		组件分2类: 
