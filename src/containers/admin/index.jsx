@@ -21,8 +21,8 @@ class Admin extends Component {
   }
 
   getUsers = async () => {
-    const users = await reqUsers()
-    console.log('users', users)
+    const usersArr = await Promise.all([reqUsers(), reqUsers()])
+    console.log('usersArr', usersArr)
   }
 
   render() {

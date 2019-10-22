@@ -16,6 +16,7 @@ import { removeUser } from '../redux/action-creators/user'
 
 import store from '../redux/store'
 import { IS_DEV } from "../config/index"
+import history from '../history'
 
 const instance = axios.create({
   baseURL: IS_DEV ? '' : '/react_api',
@@ -66,8 +67,11 @@ instance.interceptors.response.use(
     NProgress.done() // 隐藏请求进度
     const {status, data: {msg}} = error.response
     if (status===401) {
-      store.dispatch(removeUser())
-      message.error(msg)
+      console.log('-----', history.location.pathname)
+      if (history.location.pathname!=='/login') { // 如果当前没有在登陆界面, 退出登陆自动跳转到登陆界面
+        store.dispatch(removeUser())
+        message.error(msg)
+      }
     } else if (status===404) {
       message.error('请求资源不存在')
     } else {
