@@ -35,10 +35,12 @@
 ### 3. 使用axios发请求, 解决ajax请求跨域问题
 		1). axios的基本使用
 		2). 开发解决ajax跨域
-				配置
+				配置代理: webpack-dev-server ==> http-proxy-middleware
+					当前台应用内部发出一个请求时, 先找前台项目对应的资源返回
+					如果没有, 通过http-proxy-middleware转换请求到指定的目标地址(后台项目处理返回)
 				请求的url不用指定前面的基本路径
 
-### 3. 对axios进行ajax请求二次封装
+### 3. 对axios进行ajax请求二次封装 (axios二次封装)
 		1). 请求前处理: 请求拦截器成功回调中
 				a. 对象类型post请求体data数据, 修改成urlencoded格式(默认会用json)
 				b. 显示请求的progress
@@ -62,7 +64,7 @@
 		4). 管理user和token数据的reducer
 		5). login组件分发登陆的异步action
 		6). login组件读取state中user的hasLogin数据, 如果为true自动跳转到admin
-		7). admin组件读取state中user的username和hasLogin数据, 如果hasLogin为false自动跳转到admin
+		7). admin组件读取state中user的username和hasLogin数据, 如果hasLogin为false自动跳转到login
 
 ### 5. 退出登陆
 		1). 删除user和token的同步action creator: removeUserToken
