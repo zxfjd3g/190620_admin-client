@@ -10,6 +10,8 @@
     "babel-plugin-import": "^1.11.0",
     "bizcharts": "^3.5.2",
     "customize-cra": "^0.2.12",
+    "date-fns": "^2.6.0",
+    "dayjs": "1.8.16",
     "draft-js": "0.10.5",
     "draftjs-to-html": "^0.8.4",
     "echarts": "^4.2.1",
