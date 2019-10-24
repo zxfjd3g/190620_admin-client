@@ -27,3 +27,28 @@ export function reqWeather(city) {
   })
 }
 
+/* 
+获取分类列表
+*/
+export const reqCategorys = () => ajax({
+  url: '/manage/category/list',
+})
+
+/* 
+添加分类
+*/
+export const reqAddCategory = (categoryName) => ajax({
+  url: '/manage/category/add',
+  method: 'POST',
+  data: {categoryName}
+})
+// ajax.post('/manage/category/add', {categoryName})
+
+/* 
+更新分类
+*/
+export const reqUpdateCategory = ({categoryId, categoryName}) => ajax.post(
+  '/manage/category/update',
+  {categoryId, categoryName}
+)
+
