@@ -8,16 +8,23 @@ import { connect } from 'react-redux'
 
 import {loginAsync} from '../../redux/action-creators/user'
 import logo from './images/logo.png'
-import './login.less'
-// import ajax from '../../api/ajax'
+import './index.less'
+import WithCheckLogin from '../with-check-login'
 
 const { Item } = Form // 必须在所有import的下面
 
+
+// connect(
+//   state => ({hasLogin: state.user.hasLogin}),  // 用于显示的一般属性
+//   {loginAsync} // 用于更新状态的函数属性
+// )(Form.create()(WithCheckLogin(Login)))
+
 @connect(
-  state => ({hasLogin: state.user.hasLogin}),  // 用于显示的一般属性
+  state => ({}),  // 用于显示的一般属性
   {loginAsync} // 用于更新状态的函数属性
 )
-@Form.create()    // Login = Form.create()(Login)
+@Form.create()    // FormLogin = Form.create()(CheckLogin)
+@WithCheckLogin  // CheckLogin = WithCheckLogin(Login)
 class Login extends Component {
 
   handleSubmit = (event) => {
@@ -96,12 +103,6 @@ class Login extends Component {
 
   render() {
     console.log('Login render() ', this.props.form )
-
-    const {hasLogin} = this.props
-    if (hasLogin) { // 如果已经登陆, 自动跳转到admin界面
-      // this.props.history.replace('/') // 事件回调中使用
-      return <Redirect to="/"/> // 在render()中使用
-    }
 
     const { getFieldDecorator } = this.props.form;
 

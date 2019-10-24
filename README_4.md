@@ -8,6 +8,7 @@
 ## 需要下载使用的相关插件
     jsonwebtoken: 后台用来生成token和进行token校验的工具包
     code Runner: vscode插件  快速运行js代码
+    store: 用于浏览器存储的工具函数包
     
 
 ## 编码要点
@@ -29,6 +30,7 @@
             其它的做统一的错误提示
 
 ### 2. 封装localStorage, 并使用store插件简化/完善封装
+
 
 ### 3. 使用自定义高阶组件进行登陆检查
 

@@ -7,7 +7,13 @@ import {Redirect} from 'react-router-dom'
 
 import { removeUserToken } from '../../redux/action-creators/user'
 import {reqUsers} from '../../api'
+import WithCheckLogin from '../with-check-login'
 
+@connect(
+  state => ({user: state.user.user}),
+  {removeUserToken}
+)
+@WithCheckLogin
 class Admin extends Component {
 
   logout = () => {
@@ -21,13 +27,6 @@ class Admin extends Component {
   }
 
   render() {
-    // 如果当前没有登陆, 自动跳转到登陆界面
-    if (!this.props.hasLogin) {
-      return <Redirect to="/login"/>
-    }
-
-
-
     return (
       <div>
         <p>Hello, {this.props.user.username}</p>
@@ -39,7 +38,4 @@ class Admin extends Component {
   }
 }
 
-export default connect(
-  state => ({user: state.user.user, hasLogin: state.user.hasLogin}),
-  {removeUserToken}
-)(Admin)
+export default Admin
