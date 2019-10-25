@@ -2,7 +2,6 @@
     7天免登陆
     请求token检查
     Admin整体界面
-    左侧导航
     头部界面
 
 ## 需要下载使用的相关插件
@@ -47,7 +46,7 @@
         作用: 封装多个组件的公共功能部分
     2). 常见的第三方库中的高阶组件:
         connect(): 封装了与redux的store交互, state和dispatch()
-        withRouter(): 封装了与路由交互的3个属性: history/location
+        withRouter(): 封装了与路由交互的3个属性: history/location/match
         Form.create(): 封装的表单数据收集和校验的对象: form
     3). 自定义登陆检查的高阶组件
         封装登陆检查的判断处理

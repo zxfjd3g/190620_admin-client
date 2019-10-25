@@ -6,7 +6,7 @@ import { Layout } from 'antd'
 import {Route, Switch, Redirect} from 'react-router-dom'
 
 import LeftNav from './left-nav'
-import AdminHeader from './header'
+import Header from './header'
 import WithCheckLogin from '../with-check-login'
 
 import Home from '../../components/home'
@@ -20,12 +20,10 @@ import Pie from '../../components/charts/pie'
 
 
 
-const { Header, Footer, Sider, Content } = Layout
+const { Footer, Sider, Content } = Layout
 
 @WithCheckLogin
 class Admin extends Component {
-
- 
 
   render() {
     return (
@@ -34,7 +32,7 @@ class Admin extends Component {
           <LeftNav/>
         </Sider>
         <Layout>
-          <AdminHeader/>
+          <Header/>
           <Content style={{backgroundColor: 'white', margin: '30px 15px 0 15px'}}>
             <Switch>
               <Route path="/home" component={Home}/>

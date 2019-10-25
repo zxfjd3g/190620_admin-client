@@ -20,8 +20,8 @@ const { Item } = Form // 必须在所有import的下面
 // )(Form.create()(WithCheckLogin(Login)))
 
 @connect(
-  state => ({}),  // 用于显示的一般属性
-  {loginAsync} // 用于更新状态的函数属性
+  null,
+  {loginAsync}  // dispatch(loginAsync())
 )
 @Form.create()    // FormLogin = Form.create()(CheckLogin)
 @WithCheckLogin  // CheckLogin = WithCheckLogin(Login)
@@ -36,7 +36,7 @@ class Login extends Component {
         const {username, password} = values
         console.log('发ajax请求', {username, password})
 
-        this.props.loginAsync(username, password)
+        this.props.loginAsync(username, password)  
 
         // axios.post('/login', values)
         // axios.post('/login', qs.stringify(values)) // username=admin&password=admin
