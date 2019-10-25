@@ -5202,7 +5202,7 @@ html-minifier@^3.5.20:
     relateurl "0.2.x"
     uglify-js "3.4.x"
 
-html-to-draftjs@1.4.0, html-to-draftjs@^1.4.0:
+html-to-draftjs@^1.4.0:
   version "1.4.0"
   resolved "https://registry.npm.taobao.org/html-to-draftjs/download/html-to-draftjs-1.4.0.tgz#8a3cbbba5b49d50be8ce85cc08b112d5bf00fc1d"
   integrity sha1-ijy7ultJ1QvozoXMCLES1b8A/B0=

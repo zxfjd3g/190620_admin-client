@@ -52,3 +52,77 @@ export const reqUpdateCategory = ({categoryId, categoryName}) => ajax.post(
   {categoryId, categoryName}
 )
 
+/* 
+根据分类ID获取分类
+*/
+export const reqCategory = (categoryId) => ajax('/manage/category/info', {
+  params: {
+    categoryId
+  }
+})
+
+
+/* 
+获取商品分页列表
+*/
+export const reqProducts = (pageNum, pageSize) => ajax.get('/manage/product/list', {
+  params: { // 值是对象, 对象中包含的是query参数数据
+    pageNum,
+    pageSize
+  }
+})
+// ajax({ url: '/manage/product/list', params: {pageNum, pageSize}})
+
+
+/* 
+根据Name / desc搜索产品分页列表
+*/
+export const reqSearchProducts = ({
+    pageNum,
+    pageSize,
+    searchType, // 搜索的方式 'productDesc' 或者 'productName'
+    searchName
+  }) => ajax({
+  method: 'GET',
+  url: '/manage/product/search',
+  params: {
+    pageNum,
+    pageSize,
+    [searchType]: searchName
+  }
+})
+
+/* 
+对商品进行上架 / 下架处理
+*/
+export const reqUpdateProductStatus = (productId, status) => ajax({
+  method: 'POST',
+  url: '/manage/product/updateStatus',
+  data: {
+    productId,
+    status
+  }
+})
+
+/* 
+根据商品ID获取商品
+*/
+export const reqProduct = (productId) => ajax.get('/manage/product/info', {
+  params: {
+    productId
+  }
+})
+
+/* 
+删除图片
+*/
+export const reqDeleteImg = (name) => ajax.post('/manage/img/delete', {name})
+
+/* 
+添加/更新商品
+*/
+export const reqAddUpdateProduct = (product) => ajax.post(
+  '/manage/product/' + (product._id ? 'update' : 'add'), 
+  product
+)
+
