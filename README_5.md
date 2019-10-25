@@ -44,5 +44,14 @@
         b. 如果请求的是一个二级菜单项对应的路径, SubMenu应该自动展开
             在遍历生成菜单列表过程中判断并保存匹配openKey
             arr.indexOf()/find()/some()/every()
+    4). 使用redux管理头部标题
+        a. reducers/header-title.js
+        b. action-creators/header-title.js
+        c. action-types.js
+        d. header组件: 读取headerTitle状态数据
+        e: left-nav组件: 更新headerTitle
 
 ### 3. 分类管理功能实现
+    1). 界面: Card/Button/Icon/Table
+    2). 异步显示分类列表数据
+        
