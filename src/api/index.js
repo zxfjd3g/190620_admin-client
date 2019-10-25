@@ -46,3 +46,8 @@ export const reqWeather = (city) => {
   
 }
 // reqWeather('北京')
+
+/* 
+获取所有分类的列表
+*/
+export const reqCategorys = () => ajax('/manage/category/list')
