@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import {Modal, message} from 'antd'
-
-import CategoryForm from './category-form'
-import { reqCategorys, reqAddCategory, reqUpdateCategory } from '../../api'
-import LinkButton from '../../components/link-button'
+import {connect} from 'react-redux'
 import {
   Card,
   Button,
@@ -11,37 +8,39 @@ import {
   Table
 } from 'antd'
 
+import {
+  getCategorysAsync,
+  addCategoryAsync,
+  updateCategoryAsync
+} from '../../redux/action-creators/categorys'
+import CategoryForm from './category-form'
+import LinkButton from '../../components/link-button'
+import {PAGE_SIZE} from '../../config'
+
 /**
  * 分类管理
  */
-export default class Category extends Component {
+@connect(
+  state => ({categorys: state.categorys}),
+  {getCategorysAsync, addCategoryAsync, updateCategoryAsync}
+)
+class Category extends Component {
 
   state = {
-    categorys: [], // 所有分类的数组
-    loading: false, // 标识是否正在请求中
     showStatus: 0, // 0: 都不显示, 1: 显示添加 2: 显示修改
   }
 
-  /* 
-  获取获取所有分类列表显示
-  */
-  getCategorys = async () => {
-    // 显示loading
-    this.setState({
-      loading: true
-    })
-    const result = await reqCategorys()
-    // 隐藏loading
-    this.setState({
-      loading: false
-    })
-    if (result.status===0) {
-      const categorys = result.data
-      this.setState({
-        categorys
-      })
-    }
-  }
+  columns = [
+    {
+      title: '分类名称',
+      dataIndex: 'name',
+    },
+    {
+      width: 250,
+      title: '操作',
+      render: (category) => <LinkButton onClick={() => this.showUpdate(category)}>修改分类</LinkButton>
+    },
+  ]
 
   /* 
   添加分类
@@ -50,19 +49,19 @@ export default class Category extends Component {
     // 对form进行验证
     this.form.validateFields(async (error, values) => {
       if (!error) {
-        // 重置输入框中的数据(变为initialValue)
-        this.form.resetFields()
-        // 验证通过后发请求添加分类
-        const result = await reqAddCategory(values.categoryName)
-        if (result.status===0) {
+        // 清空表单
+        this.form.resetFields();
+
+        // 表单校验通过
+        const msg = await this.props.addCategoryAsync(values.categoryName)
+        if (!msg) {
+          // 隐藏对话框
           this.setState({
             showStatus: 0
           })
           message.success('添加分类成功')
-          // 获取最新分类列表显示
-          this.getCategorys()
         } else {
-          message.error(result.msg || '添加分类失败')
+          message.error(msg)
         }
       }
     })
@@ -72,24 +71,23 @@ export default class Category extends Component {
   /* 
   修改分类
   */
-  UpdateCategory = () => {
+  updateCategory = () => {
     // 对form进行验证
     this.form.validateFields(async (error, values) => {
       if (!error) {
-        // 重置输入框中的数据(变为initialValue)
-        this.form.resetFields()
-        // 验证通过后发请求更新分类
-        values.categoryId = this.category._id
-        const result = await reqUpdateCategory(values)
-        if (result.status===0) {
+
+        // 重置表单
+        this.form.resetFields();
+
+        const msg = await this.props.updateCategoryAsync(this.category._id, values.categoryName)
+        if (!msg) {
+          // 隐藏对话框
           this.setState({
             showStatus: 0
           })
-          message.success('修改分类成功')
-          // 获取最新分类列表显示
-          this.getCategorys()
+          message.success('更新分类成功')
         } else {
-          message.error(result.msg || '修改分类失败')
+          message.error(msg)
         }
       }
     })
@@ -127,28 +125,18 @@ export default class Category extends Component {
   }
 
   componentDidMount () {
-    this.getCategorys()
+    this.props.getCategorysAsync()
   }
 
-  componentWillMount () {
-    this.columns = [
-      {
-        title: '分类名称',
-        dataIndex: 'name',
-      },
-      {
-        width: 250,
-        title: '操作',
-        render: (category) => <LinkButton onClick={() => this.showUpdate(category)}>修改分类</LinkButton>
-      },
-    ]
-  }
+  
 
   render() {
     // 取出保存的用于更新的分类对象
     const category = this.category || {}
 
-    const {categorys, loading, showStatus} = this.state
+    const {showStatus} = this.state
+    const {categorys} = this.props
+
     const extra = (
       <Button type="primary" onClick={this.showAdd}>
         <Icon type="plus"></Icon>
@@ -159,10 +147,9 @@ export default class Category extends Component {
     return (
       <Card extra={extra}>
         <Table
-          loading={loading}
           bordered={true}
           rowKey="_id"  /* 将数据对象category的_id的属性值作为每行的key */
-          pagination={{pageSize: 2, showQuickJumper: true}}
+          pagination={{pageSize: PAGE_SIZE, showQuickJumper: true}}
           dataSource={categorys} 
           columns={this.columns} 
         />
@@ -177,7 +164,7 @@ export default class Category extends Component {
         <Modal
           title="修改分类"
           visible={showStatus===2}
-          onOk={this.UpdateCategory}
+          onOk={this.updateCategory}
           onCancel={this.handleCancel}
         >
           <CategoryForm 
@@ -189,3 +176,5 @@ export default class Category extends Component {
     )
   }
 }
+
+export default Category

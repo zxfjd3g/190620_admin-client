@@ -2,8 +2,10 @@ import { message } from 'antd'
 
 export const IS_DEV = process.env.NODE_ENV==='development'
 
+export const PAGE_SIZE = 5
+
 // 全局设置message
 message.config({
-  duration: 4,
+  duration: 3,
   top: 30
 })
