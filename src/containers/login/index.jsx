@@ -2,12 +2,11 @@
 登陆的一级路由组件
 */
 import React, { Component } from 'react'
-import {Redirect} from 'react-router-dom'
 import { Form, Icon, Input, Button } from 'antd'
 import { connect } from 'react-redux'
 
 import {loginAsync} from '../../redux/action-creators/user'
-import logo from './images/logo.png'
+import logo from '../../assets/images/logo.png'
 import './index.less'
 import WithCheckLogin from '../with-check-login'
 

@@ -1,9 +1,10 @@
 import React, { Component } from 'react'
 import {connect} from 'react-redux'
 import {withRouter} from 'react-router-dom'  // 高阶组件, 用来包装非路由组件
-import { Modal } from 'antd';
+import { Modal, Button, Icon } from 'antd';
 import dayjs from 'dayjs'
 import format from 'date-fns/format'
+import screenfull from 'screenfull'
 
 import {removeUserToken} from '../../../redux/action-creators/user'
 import LinkButton from '../../../components/link-button'
@@ -24,7 +25,8 @@ class Header extends Component {
     // currentTime: dayjs().format('YYYY-MM-DD HH:mm:ss')
     currentTime: format(Date.now(), 'yyyy-MM-dd HH:mm:ss'),
     dayPictureUrl: '',  // 天气图片的url
-    weather: '' // 天气文本
+    weather: '', // 天气文本
+    isFullScreen: false, // 当前是否全屏显示
   }
 
   logout = () => {
@@ -50,6 +52,12 @@ class Header extends Component {
     })
   }
 
+  handleFullScreen = () => {
+    if (screenfull.isEnabled) {
+      screenfull.toggle()
+    }
+  }
+
 
   componentDidMount () {
     // 启动循环定时器, 每隔1s, 更新显示当前时间
@@ -60,6 +68,14 @@ class Header extends Component {
     }, 1000);
     // 请求获取天气信息显示
     this.showWeather()
+
+    // 给screenfull绑定change
+    screenfull.onchange(() => {
+      // 切换状态数据
+      this.setState({
+        isFullScreen: !this.state.isFullScreen
+      })
+    })
   }
 
   componentWillUnmount () {
@@ -71,11 +87,14 @@ class Header extends Component {
   render() {
     // 得到当前请求的路由路径
     const path = this.props.location.pathname
-    const {currentTime, dayPictureUrl, weather} = this.state
+    const {currentTime, dayPictureUrl, weather, isFullScreen} = this.state
 
     return (
       <div className="header">
         <div className="header-top">
+          <Button size="small" onClick={this.handleFullScreen}>
+            <Icon type={isFullScreen ? 'fullscreen-exit' : 'fullscreen'} />
+          </Button> &nbsp;
           <span>欢迎, {this.props.username}</span>
           <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
