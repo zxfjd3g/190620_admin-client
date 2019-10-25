@@ -1,14 +1,19 @@
 import React, { Component } from 'react'
 import { Menu, Icon } from 'antd'
 import {Link} from 'react-router-dom'
+import {withRouter} from 'react-router-dom'
+import {connect} from 'react-redux'
 
+import {setHeaderTitle} from '../../../redux/action-creators/header-title'
 import menuList from '../../../config/menu-config'
 import logo from '../../../assets/images/logo.png'
 import './index.less'
 
 const { SubMenu, Item } = Menu
 
-export default class LeftNav extends Component {
+@connect(state => ({headerTitle: state.headerTitle}), {setHeaderTitle})
+@withRouter  // LeftNav = withRouter(LeftNav)
+class LeftNav extends Component {
 
   /* 
   使用reduce() + 递归调用 来生成多级菜单项的数组
@@ -17,6 +22,8 @@ export default class LeftNav extends Component {
 
   // [1, 3, 4, 6, 5, 8]
    return menuList.reduce((pre, item) => {
+     // 当前请求路径
+     const path = this.props.location.pathname
      /* 
       {
         title: '首页', // 菜单标题名称
@@ -27,15 +34,29 @@ export default class LeftNav extends Component {
       */
     // 向pre添加<Item>
     if (!item.children) {
+      // 如果当前请求的就是item对应的路径, 将当前title保存到state中
+      if (item.key===path && this.props.headerTitle!==item.title) {
+        this.props.setHeaderTitle(item.title)
+      }
+
       pre.push((
         <Item key={item.key}>
-          <Link to={item.key}>
+          <Link to={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
             <Icon type={item.icon} />
             <span>{item.title}</span>
           </Link>
         </Item>
       ))
     } else { // 向pre添加<SubMenu>
+      // 判断item的children有没有一个child的key与path一致
+      
+      // const cItem = item.children.find(item => item.key===path)
+      // if (cItem) {
+      if (item.children.some(item => item.key === path)) {
+        this.openKey = item.key
+      }
+      
+
       pre.push(
         <SubMenu
           key={item.key}
@@ -100,18 +121,27 @@ export default class LeftNav extends Component {
   }
 
   render() {
+    const menuNodes = this.getMenuNodes_reduce(menuList)
+    const selectedKey = this.props.location.pathname
+    const openKey = this.openKey
+    console.log('left-nav render()', selectedKey, openKey) // 可能会执行多次
     return (
       <div className="left-nav">
         <div className="left-nav-header">
           <img src={logo} alt="logo"/>
           <h1>硅谷后台</h1>
         </div>
-        
+        {/* 
+          defaultSelectedKeys: 只有第一次指定值有效, 后面再指定新的default值无效
+          selectedKeys: 根据最新指定的值显示
+        */}
         <Menu
           mode="inline"
           theme="dark"
+          selectedKeys={[selectedKey]}
+          defaultOpenKeys={[openKey]}
         >
-          {this.getMenuNodes_reduce(menuList)}
+          { menuNodes }
           {/* <Item key="/home">
             <Link to="/home">
               <Icon type="home" />
@@ -145,3 +175,5 @@ export default class LeftNav extends Component {
     )
   }
 }
+
+export default LeftNav

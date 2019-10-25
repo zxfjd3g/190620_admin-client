@@ -15,7 +15,10 @@ import './index.less'
 管理界面的头部组件
 */
 @connect(
-  state => ({username: state.user.user.username}),
+  state => ({
+    username: state.user.user.username, 
+    headerTitle: state.headerTitle
+  }),
   {removeUserToken}
 )
 @withRouter  // 向组件内部传入3个属性: history/location/match
@@ -85,9 +88,8 @@ class Header extends Component {
 
 
   render() {
-    // 得到当前请求的路由路径
-    const path = this.props.location.pathname
     const {currentTime, dayPictureUrl, weather, isFullScreen} = this.state
+    const {username, headerTitle} = this.props
 
     return (
       <div className="header">
@@ -95,11 +97,11 @@ class Header extends Component {
           <Button size="small" onClick={this.handleFullScreen}>
             <Icon type={isFullScreen ? 'fullscreen-exit' : 'fullscreen'} />
           </Button> &nbsp;
-          <span>欢迎, {this.props.username}</span>
+          <span>欢迎, {username}</span>
           <LinkButton onClick={this.logout}>退出</LinkButton>
         </div>
         <div className="header-bottom">
-          <div className="header-bottom-left">{path}</div>
+          <div className="header-bottom-left">{headerTitle}</div>
           <div className="header-bottom-right">
             <span>{currentTime}</span>
             <img src={dayPictureUrl} alt="weather"/>
