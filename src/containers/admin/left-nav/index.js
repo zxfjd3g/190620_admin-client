@@ -35,7 +35,7 @@ class LeftNav extends Component {
     // 向pre添加<Item>
     if (!item.children) {
       // 如果当前请求的就是item对应的路径, 将当前title保存到state中
-      if (item.key===path && this.props.headerTitle!==item.title) {
+      if (path.indexOf(item.key)===0 && this.props.headerTitle!==item.title) {
         this.props.setHeaderTitle(item.title)
       }
 
@@ -52,7 +52,7 @@ class LeftNav extends Component {
       
       // const cItem = item.children.find(item => item.key===path)
       // if (cItem) {
-      if (item.children.some(item => item.key === path)) {
+      if (item.children.some(item => path.indexOf(item.key)===0)) {
         this.openKey = item.key
       }
       
@@ -122,7 +122,11 @@ class LeftNav extends Component {
 
   render() {
     const menuNodes = this.getMenuNodes_reduce(menuList)
-    const selectedKey = this.props.location.pathname
+    let selectedKey = this.props.location.pathname
+    if (selectedKey.indexOf('/product/')===0) {
+      selectedKey = '/product'
+    }
+
     const openKey = this.openKey
     console.log('left-nav render()', selectedKey, openKey) // 可能会执行多次
     return (
