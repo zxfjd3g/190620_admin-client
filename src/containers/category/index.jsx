@@ -10,6 +10,7 @@ import {
 
 import { reqCategorys } from '../../api'
 import LinkButton from '../../components/link-button'
+import AddForm from './add-form'
 
 const columns = [
   {
@@ -31,6 +32,7 @@ export default class Category extends Component {
   state = {
     categorys: [],
     loading: false, // 是否显示loading
+    isShowAdd: true, // 是否显示添加的对话框
   }
 
   /* 
@@ -56,13 +58,29 @@ export default class Category extends Component {
     }
   }
 
+  /* 
+  添加分类
+  */
+  addCategory = () => {
+    
+  }
+
+  /* 
+  隐藏添加界面
+  */
+  hideAdd = () => {
+    this.setState({
+      isShowAdd: false
+    })
+  }
+
   componentDidMount () {
     this.getCategorys()
   }
 
   render() {
 
-    const {categorys, loading} = this.state
+    const {categorys, loading, isShowAdd} = this.state
 
     // 右上角界面
     const extra = (
@@ -82,6 +100,15 @@ export default class Category extends Component {
           rowKey="_id"
           pagination={{pageSize: 5, showQuickJumper: true}}
         />
+
+        <Modal
+          title="添加分类"
+          visible={isShowAdd}
+          onOk={this.addCategory}
+          onCancel={this.hideAdd}
+        >
+          <AddForm/>
+        </Modal>
       </Card>
     )
   }

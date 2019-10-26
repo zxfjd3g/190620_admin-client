@@ -33,10 +33,10 @@
             收到响应自动执行函数调用的js代码, 也就执行了提前定义好的回调函数, 并得到了需要的结果数据
 
 ### 2. Admin的左侧导航组件实现
-    1). 导航菜单界面: Menu/SubMenu/MenuItem
+    1). 导航菜单界面: Menu/SubMenu/Item
     2). 根据数据动态生成菜单项列表
         map() + 递归
-        reducer() + 递归
+        reduce() + 递归
     3). 解决2个问题
         a. 默认选中对应的菜单项
             使用withRouter包装当前组件
@@ -47,11 +47,13 @@
     4). 使用redux管理头部标题
         a. reducers/header-title.js
         b. action-creators/header-title.js
-        c. action-types.js
+        c. action-types.js  // 每个type都对应一个同步action creator
         d. header组件: 读取headerTitle状态数据
         e: left-nav组件: 更新headerTitle
 
 ### 3. 分类管理功能实现
     1). 界面: Card/Button/Icon/Table
     2). 异步显示分类列表数据
+        a. 定义接口请求函数
+        c. 组件中调用接口请求函数获取分类列表数据显示
         
