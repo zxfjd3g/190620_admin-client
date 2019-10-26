@@ -1,7 +1,6 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import { Upload, Icon, Modal, message } from 'antd'
-import {connect} from 'react-redux'
 
 import { reqDeleteImg } from '../../api'
 import { IMG_BASE_URL } from '../../config'

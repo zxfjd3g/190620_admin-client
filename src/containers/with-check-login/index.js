@@ -13,6 +13,7 @@ export default (WrappedComponent) => {
     state => ({hasLogin: state.user.hasLogin})
   )
   class HocComponent extends Component {
+    static displayName = 'HOC CheckLogin'
     render() {
       const {hasLogin, ...rest} = this.props
       const { pathname } = this.props.location

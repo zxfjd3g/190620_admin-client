@@ -1,5 +1,4 @@
 import React, { Component } from 'react'
-import { message } from 'antd'
 import PropTypes from 'prop-types'
 import { Editor } from 'react-draft-wysiwyg'
 import { EditorState, convertToRaw, ContentState } from 'draft-js'

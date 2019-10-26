@@ -5,6 +5,7 @@ import LinkButton from '../../components/link-button'
 import memory from '../../utils/memory'
 import { IMG_BASE_URL } from '../../config'
 import { reqProduct, reqCategory } from '../../api'
+import './detail.less'
 
 const Item = List.Item
 

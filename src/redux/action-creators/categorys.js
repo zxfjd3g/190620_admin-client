@@ -13,14 +13,16 @@ import {
   reqAddCategory, 
   reqUpdateCategory
 } from '../../api'
-import { message } from "antd"
 
 const receiveCategorys = (categorys) => ({type: RECEIVE_CATEGORYS, data: categorys})
 const addCategory = (category) => ({type: ADD_CATEGORY, data: category})
 const updateCategory = (category) => ({type: UPDATE_CATEGORY, data: category})
 
 export const getCategorysAsync = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => {
+    if (getState().categorys.length>0) {
+      return 
+    }
     const result = await reqCategorys()
     if (result.status===0) {
       const categorys = result.data
