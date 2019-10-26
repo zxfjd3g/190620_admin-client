@@ -8,21 +8,9 @@ import {
   message
 } from 'antd'
 
-import { reqCategorys } from '../../api'
+import { reqCategorys, reqAddCategory } from '../../api'
 import LinkButton from '../../components/link-button'
-import AddForm from './add-form'
-
-const columns = [
-  {
-    title: '分类名称',
-    dataIndex: 'name',
-  },
-  {
-    width: 300,
-    title: '操作',
-    render: () => <LinkButton>修改分类</LinkButton>,
-  }
-];
+import AddUpdateForm from './add-update-form'
 
 /* 
 Admin的分类管理子路由组件
@@ -32,8 +20,22 @@ export default class Category extends Component {
   state = {
     categorys: [],
     loading: false, // 是否显示loading
-    isShowAdd: true, // 是否显示添加的对话框
+    isShowAdd: false, // 是否显示添加的对话框
+    isShowUpdate: false, // 是否显示修改的对话框
   }
+
+  columns = [
+    {
+      title: '分类名称',
+      dataIndex: 'name',
+    },
+    {
+      width: 300,
+      title: '操作',
+      // 如果没有指定dataIndex, 接收数据对象参数, 如果指定了dataIndex, 接收对应值的参数
+      render: (category) => <LinkButton onClick={() => this.showUpdate(category)}>修改分类</LinkButton>,
+    }
+  ]
 
   /* 
   异步获取分类列表显示
@@ -62,6 +64,30 @@ export default class Category extends Component {
   添加分类
   */
   addCategory = () => {
+    // 进行输入验证
+    this.form.validateFields(async (error, values) => {
+      if (!error) {
+        // 得到输入数据
+        const {categoryName} = values
+        // 发添加分类的请求
+        const result = await reqAddCategory(categoryName)
+        this.form.resetFields() // 重置输入数据(回到初始值)
+        if (result.status===0) {
+          // 添加成功了, 更新列表显示
+          const category = result.data
+          const categorys = this.state.categorys
+          // categorys.unshift(category) // 不要直接更新状态数据
+          this.setState({
+            categorys: [category, ...categorys],
+            isShowAdd: false
+          })
+          message.success('添加分类成功')
+        } else {
+          // 添加失败, 显示提示
+          message.error(result.msg)
+        }
+      }
+    })
     
   }
 
@@ -69,8 +95,42 @@ export default class Category extends Component {
   隐藏添加界面
   */
   hideAdd = () => {
+    this.form.resetFields() // 重置输入数据(回到初始值)
     this.setState({
       isShowAdd: false
+    })
+  }
+
+  /* 
+  显示更新的界面
+  */
+  showUpdate = (category) => {
+    // 保存分类
+    this.category = category
+    // 显示
+    this.setState({
+      isShowUpdate: true
+    })
+  }
+
+  /* 
+  更新分类
+  */
+  updateCategory = () => {
+
+  }
+
+  /* 
+  隐藏更新界面
+  */
+  hideUpdate = () => {
+    // 删除前面添加的属性
+    delete this.category
+    // 重置输入
+    this.form.resetFields()
+    // 隐藏更新界面
+    this.setState({
+      isShowUpdate: false
     })
   }
 
@@ -80,11 +140,13 @@ export default class Category extends Component {
 
   render() {
 
-    const {categorys, loading, isShowAdd} = this.state
+    const {categorys, loading, isShowAdd, isShowUpdate} = this.state
+
+    const category = this.category || {} // 在没有指定修改的分类前, 默认是一个{}
 
     // 右上角界面
     const extra = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => this.setState({isShowAdd: true})}>
         <Icon type="plus"></Icon>
         添加
       </Button>
@@ -96,7 +158,7 @@ export default class Category extends Component {
           bordered
           loading={loading}
           dataSource={categorys} 
-          columns={columns} 
+          columns={this.columns} 
           rowKey="_id"
           pagination={{pageSize: 5, showQuickJumper: true}}
         />
@@ -107,7 +169,15 @@ export default class Category extends Component {
           onOk={this.addCategory}
           onCancel={this.hideAdd}
         >
-          <AddForm/>
+          <AddUpdateForm setForm={(form) => this.form = form}/>
+        </Modal>
+        <Modal
+          title="修改分类"
+          visible={isShowUpdate}
+          onOk={this.updateCategory}
+          onCancel={this.hideUpdate}
+        >
+          <AddUpdateForm setForm={(form) => this.form = form} categoryName={category.name}/>
         </Modal>
       </Card>
     )
