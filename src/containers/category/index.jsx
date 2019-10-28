@@ -8,7 +8,6 @@ import {
   message
 } from 'antd'
 import {connect} from 'react-redux'
-import {reqAddCategory, reqUpdateCategory} from '../../api'
 import { 
   getCategorysAsync, 
   addCategoryAsync, 

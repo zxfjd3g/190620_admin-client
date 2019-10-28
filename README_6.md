@@ -22,7 +22,7 @@
     action-types.js
     category.jsx: 
         读取categorys
-        异步更新categorys: getCategoryAsync() / addCategoryAsync() / updateCategoryAsync
+        异步更新categorys: getCategoryAsync() / addCategoryAsync() / updateCategoryAsync()
     难点: 组件中调用函数分发异步action后如何得到处理的结果
         异步action函数: 请求完成后返回result.msg
         组件中: 调用分发的函数得到的是promise对象, 而成功的value为msg

@@ -12,7 +12,6 @@ import {
   reqAddCategory,
   reqUpdateCategory
 } from '../../api'
-import Category from '../../containers/category'
 
 /* 同步action creator */
 const receiveCategorys = (categorys) => ({type: RECEIVE_CATEGORYS, data: categorys})

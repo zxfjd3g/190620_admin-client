@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
-import {Card, Select, Input, Button, Icon, Table} from 'antd'
+import {Card, Select, Input, Button, Icon, Table, message} from 'antd'
 
-import {reqProducts, reqSearchProducts} from '../../api'
+import {reqProducts, reqSearchProducts, reqUpdateProductStatus} from '../../api'
 import {PAGE_SIZE} from '../../config'
 
 const {Option} = Select
@@ -35,25 +35,64 @@ export default class List extends Component {
     {
       width: 100,
       title: '状态',
-      dataIndex: 'status',
-      render: (price) => (
-        <span>
-          <Button type="primary">下架</Button>
-          <span>在售</span>
-        </span>
-      )
+      // dataIndex: 'status',
+      render: ({_id, status}) => { // status: 1在售, 2已下架
+        let btnText = '下架'
+        let text = '在售'
+        if (status===2) {
+          btnText = '上架'
+          text = '已下架'
+        }
+        return (
+          <span>
+            <Button 
+              type="primary" 
+              onClick={() => this.updateStatus(_id, status===1 ? 2 : 1)}
+            >{btnText}</Button>
+            <span>{text}</span>
+          </span>
+        )
+      }
     },
     {
       width: 100,
       title: '操作',
       render: (product) => (
         <span>
-          <Button type="link">详情</Button>
+          <Button type="link" onClick={() => {
+            this.props.history.push(`/product/detail/${product._id}`)
+          }}>详情</Button>
           <Button type="link">修改</Button>
         </span>
       )
     },
   ]
+
+  /* 
+  更新商品状态
+  */
+  updateStatus = async (id, status) => {
+    const result = await reqUpdateProductStatus(id, status)
+    if (result.status===0) {
+      message.success('更新状态成功')
+
+      let products = this.state.products
+      products = products.map(item => {
+        if (item._id===id) {
+          // item.status = status
+          return {...item, status}
+        } else {
+          return item
+        }
+      })
+      this.setState({
+        products
+      })
+
+    } else {
+      message.error(result.msg)
+    }
+  }
 
   /* 
   异步获取指定页码的商品列表显示

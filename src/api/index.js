@@ -93,3 +93,23 @@ export const reqSearchProducts = ({
     [searchType]: searchName // 参数名不是searchType, 而是这个变量的值
   }
 })
+
+/* 
+更新商品状态
+*/
+export const reqUpdateProductStatus = (productId, status) => ajax({
+  url: '/manage/product/updateStatus',
+  method: 'POST',
+  data: {
+    productId,
+    status
+  }
+})
+
+/* 
+根据商品ID获取商品
+*/
+export const reqProductById = (id) => ajax({
+  url: '/manage/product/info',
+  params: {productId: id}
+})
