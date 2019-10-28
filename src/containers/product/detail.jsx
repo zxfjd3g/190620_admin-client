@@ -97,7 +97,7 @@ export default class Detail extends Component {
               {/* http://localhost:4000/upload/image-1572072100079.png */}
               {
                 product.imgs && product.imgs.map(
-                  img => <img key={img} src={BASE_IMAGE_URL + img} className="product-detail-img"/>
+                  img => <img key={img} src={BASE_IMAGE_URL + img} className="product-detail-img" alt="img"/>
                 )
               }
             </span>

@@ -5,12 +5,14 @@ import { Modal, Button, Icon } from 'antd';
 import dayjs from 'dayjs'
 import format from 'date-fns/format'
 import screenfull from 'screenfull'
+import { withTranslation } from 'react-i18next'
 
 import {removeUserToken} from '../../../redux/action-creators/user'
 import LinkButton from '../../../components/link-button'
 import {reqWeather} from '../../../api'
 
 import './index.less'
+
 /* 
 管理界面的头部组件
 */
@@ -22,6 +24,7 @@ import './index.less'
   {removeUserToken}
 )
 @withRouter  // 向组件内部传入3个属性: history/location/match
+@withTranslation()
 class Header extends Component {
 
   state = {
@@ -30,6 +33,7 @@ class Header extends Component {
     dayPictureUrl: '',  // 天气图片的url
     weather: '', // 天气文本
     isFullScreen: false, // 当前是否全屏显示
+    language: this.props.i18n.language
   }
 
   logout = () => {
@@ -61,6 +65,15 @@ class Header extends Component {
     }
   }
 
+  changeLanguage = () => {
+    const language = this.state.language==='en' ? 'zh-CN' : 'en'
+    this.props.i18n.changeLanguage(language)
+    this.setState({
+      language
+    })
+    
+  }
+
 
   componentDidMount () {
     // 启动循环定时器, 每隔1s, 更新显示当前时间
@@ -88,12 +101,15 @@ class Header extends Component {
 
 
   render() {
-    const {currentTime, dayPictureUrl, weather, isFullScreen} = this.state
+    const {currentTime, dayPictureUrl, weather, isFullScreen, language} = this.state
     const {username, headerTitle} = this.props
 
     return (
       <div className="header">
         <div className="header-top">
+          <Button size="small" onClick={this.changeLanguage}>
+            {language==='en' ? '中文' : 'English'}
+          </Button> &nbsp;
           <Button size="small" onClick={this.handleFullScreen}>
             <Icon type={isFullScreen ? 'fullscreen-exit' : 'fullscreen'} />
           </Button> &nbsp;

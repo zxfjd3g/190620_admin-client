@@ -3,7 +3,7 @@ import { Menu, Icon } from 'antd'
 import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
-import { withTranslation, getI18n } from 'react-i18next'
+import { withTranslation } from 'react-i18next'
 
 import {setHeaderTitle} from '../../../redux/action-creators/header-title'
 import menuList from '../../../config/menu-config'
@@ -66,7 +66,7 @@ class LeftNav extends Component {
           title={
             <span>
               <Icon type={item.icon} />
-              <span>{item.title}</span>
+              <span>{this.props.t(item.title)}</span>
             </span>
           }
         >
@@ -121,12 +121,6 @@ class LeftNav extends Component {
      
 
     })
-  }
-
-  componentDidMount () {
-    setInterval(() => {
-      this.props.i18n.changeLanguage(this.props.i18n.language==='en' ? 'zh-CN' : 'en')
-    }, 2000);
   }
 
   render() {
