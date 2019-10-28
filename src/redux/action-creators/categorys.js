@@ -22,7 +22,10 @@ const updateCategory = (category) => ({type: UPDATE_CATEGORY, data: category})
 获取所有分类列表的异步action creator
 */
 export const getCategorysAsync = () => {
-  return async dispatch => {
+  return async (dispatch, getState) => { // 在action creator中如何得到现有的state
+    // 如果有数据, 直接结束(不用再发请求)
+    if (getState().categorys.length>0) return
+
     // 发异步ajax请求
     const result = await reqCategorys()
     // 请求完成分发同步action

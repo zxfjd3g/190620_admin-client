@@ -78,6 +78,17 @@ export const reqProducts = (pageNum, pageSize) => ajax({
 })
 
 /* 
+根据分类ID获取分类
+*/
+export const reqCategory = (id) => ajax({
+  url: '/manage/category/info',
+  params: {
+    categoryId: id
+  }
+})
+
+
+/* 
 搜索获取商品分页列表
 */
 export const reqSearchProducts = ({

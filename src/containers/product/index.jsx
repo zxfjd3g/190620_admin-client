@@ -3,6 +3,7 @@ import {Card, Select, Input, Button, Icon, Table, message} from 'antd'
 
 import {reqProducts, reqSearchProducts, reqUpdateProductStatus} from '../../api'
 import {PAGE_SIZE} from '../../config'
+import memoryUtils from '../../utils/memory'
 
 const {Option} = Select
 
@@ -60,6 +61,7 @@ export default class List extends Component {
       render: (product) => (
         <span>
           <Button type="link" onClick={() => {
+            memoryUtils.product = product // 将product保存在内存容器中
             this.props.history.push(`/product/detail/${product._id}`)
           }}>详情</Button>
           <Button type="link">修改</Button>
