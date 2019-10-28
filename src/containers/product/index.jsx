@@ -64,7 +64,10 @@ export default class List extends Component {
             memoryUtils.product = product // 将product保存在内存容器中
             this.props.history.push(`/product/detail/${product._id}`)
           }}>详情</Button>
-          <Button type="link">修改</Button>
+          <Button type="link" onClick={() => {
+            memoryUtils.product = product
+            this.props.history.push(`/product/addupdate`)
+          }}>修改</Button>
         </span>
       )
     },
@@ -172,7 +175,10 @@ export default class List extends Component {
     )
 
     const extra = (
-      <Button type="primary">
+      <Button type="primary" onClick={() => {
+        memoryUtils.product = {}
+        this.props.history.push('/product/addupdate')
+      }}>
         <Icon type="plus"></Icon>
         添加商品
       </Button>

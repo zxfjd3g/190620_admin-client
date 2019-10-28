@@ -124,3 +124,11 @@ export const reqProductById = (id) => ajax({
   url: '/manage/product/info',
   params: {productId: id}
 })
+
+/* 
+添加或更新商品
+*/
+export const reqAddUpdateProduct = (product) => ajax.post(
+  '/manage/product/' + (product._id ? 'update' : 'add'),
+  product
+)
