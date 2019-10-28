@@ -13,14 +13,6 @@ export const reqLogin = ({username, password}) => ajax({
   data: {username, password}
 })
 
-/* 获取用户列表 */
-export const reqUsers = () => ajax({
-  url: '/manage/user/list',
-  method: 'GET',
-})
-// ajax('/manage/user/list')
-// ajax.get('/manage/user/list')
-
 /* 
 封装获取指定城市的天气信息
 使用jsonp请求
@@ -141,3 +133,24 @@ export const reqAddUpdateProduct = (product) => ajax.post(
 */
 export const reqDeleteImg = (name) => ajax.post('/manage/img/delete', {name})
 
+
+// 获取所有角色的列表
+export const reqRoles = () => ajax('/manage/role/list')
+// 添加角色
+export const reqAddRole = (roleName) => ajax.post('/manage/role/add', {
+  roleName
+})
+/* 
+更新角色: 给角色授权
+*/
+export const reqUpdateRole = (role) => ajax.post('/manage/role/update', role)
+
+
+// 获取所有用户的列表
+export const reqUsers = () => ajax('/manage/user/list')
+// 删除指定用户
+export const reqDeleteUser = (userId) => ajax.post('/manage/user/delete', {
+  userId
+})
+// 添加/更新用户
+export const reqAddOrUpdateUser = (user) => ajax.post('/manage/user/' + (user._id ? 'update' : 'add'), user)
