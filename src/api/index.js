@@ -132,3 +132,12 @@ export const reqAddUpdateProduct = (product) => ajax.post(
   '/manage/product/' + (product._id ? 'update' : 'add'),
   product
 )
+
+/* 
+删除商品图片
+*/
+/* 
+删除图片
+*/
+export const reqDeleteImg = (name) => ajax.post('/manage/img/delete', {name})
+

@@ -14,6 +14,8 @@ import memoryUtils from '../../utils/memory'
 import {getCategorysAsync} from '../../redux/action-creators/categorys'
 import LinkButton from '../../components/link-button'
 import {reqAddUpdateProduct} from '../../api'
+import PicturesWall from "./pictures-wall"
+import RichTextEditor from "./rich-text-editor"
 
 const {Item} = Form
 const {Option} = Select
@@ -29,6 +31,21 @@ Admin的商品子路由组件(商品添加/修改)
 @Form.create()
 class AddUpdate extends Component {
 
+  // 创建ref容器
+  pwRef = React.createRef()
+  editorRef = React.createRef()
+
+  /* 
+  检查价格
+  */
+ validatePrice = (rule, value, callback) => {
+    if (value < 0) {
+      callback('价格不能小于0')
+    } else {
+      callback()
+    }
+  }
+
   /* 
   添加/更新商品
   */
@@ -37,11 +54,22 @@ class AddUpdate extends Component {
     this.props.form.validateFields(async (error, values) => {
       // 如果成功了, 提交请求
       if (!error) {
+
+        // 得到所有上传图片文件名的数组
+        values.imgs = this.pwRef.current.getImgs()
+        console.log('imgs', values.imgs)
+
+        // 得到富文本编辑器指定的detail
+        values.detail = this.editorRef.current.getDetail()
+        console.log('detail', values.detail)
+
         // 如果是更新, 需要有id数据
         const id = memoryUtils.product._id
         if (id) {
           values._id = id
         }
+
+        // 发添加/更新的请求
         const result = await reqAddUpdateProduct(values)
         if (result.status===0) {
           message.success('操作成功')
@@ -52,7 +80,6 @@ class AddUpdate extends Component {
         }
       }
     })
-
   }
 
   componentDidMount () {
@@ -137,12 +164,15 @@ class AddUpdate extends Component {
             }
             
           </Item>
-          <Item label="商品图片">
-            上传图片组件
+          <Item label="商品图片" wrapperCol={{ span: 15}}>
+            {/* 内部会将组件对象保存到ref容器对象: current: 组件对象 */}
+            <PicturesWall ref={this.pwRef} imgs={product.imgs}/>
           </Item>
-          <Item label="商品详情">
-            富文本编辑器组件 
+
+          <Item label="商品详情" wrapperCol={{ span: 20 }}>
+            <RichTextEditor ref={this.editorRef} detail={product.detail} />
           </Item>
+          
           <Item>
             <Button type="primary" onClick={this.submit}>提交</Button>
           </Item>
