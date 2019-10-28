@@ -3,6 +3,7 @@ import { Menu, Icon } from 'antd'
 import {Link} from 'react-router-dom'
 import {withRouter} from 'react-router-dom'
 import {connect} from 'react-redux'
+import { withTranslation, getI18n } from 'react-i18next'
 
 import {setHeaderTitle} from '../../../redux/action-creators/header-title'
 import menuList from '../../../config/menu-config'
@@ -13,7 +14,9 @@ const { SubMenu, Item } = Menu
 
 @connect(state => ({headerTitle: state.headerTitle}), {setHeaderTitle})
 @withRouter  // LeftNav = withRouter(LeftNav)
+@withTranslation() // 向组件传递 i18n对象 t函数
 class LeftNav extends Component {
+
 
   /* 
   使用reduce() + 递归调用 来生成多级菜单项的数组
@@ -36,14 +39,14 @@ class LeftNav extends Component {
     if (!item.children) {
       // 如果当前请求的就是item对应的路径, 将当前title保存到state中
       if (path.indexOf(item.key)===0 && this.props.headerTitle!==item.title) {
-        this.props.setHeaderTitle(item.title)
+        this.props.setHeaderTitle(this.props.t(item.title))
       }
 
       pre.push((
         <Item key={item.key}>
-          <Link to={item.key} onClick={() => this.props.setHeaderTitle(item.title)}>
+          <Link to={item.key} onClick={() => this.props.setHeaderTitle(this.props.t(item.title))}>
             <Icon type={item.icon} />
-            <span>{item.title}</span>
+            <span>{this.props.t(item.title)}</span>
           </Link>
         </Item>
       ))
@@ -96,7 +99,7 @@ class LeftNav extends Component {
         <Item key={item.key}>
           <Link to={item.key}>
             <Icon type={item.icon} />
-            <span>{item.title}</span>
+            <span>{this.props.t('menus.home')}</span>
           </Link>
         </Item>
        )
@@ -120,6 +123,12 @@ class LeftNav extends Component {
     })
   }
 
+  componentDidMount () {
+    setInterval(() => {
+      this.props.i18n.changeLanguage(this.props.i18n.language==='en' ? 'zh-CN' : 'en')
+    }, 2000);
+  }
+
   render() {
     const menuNodes = this.getMenuNodes_reduce(menuList)
     let selectedKey = this.props.location.pathname
@@ -133,7 +142,7 @@ class LeftNav extends Component {
       <div className="left-nav">
         <div className="left-nav-header">
           <img src={logo} alt="logo"/>
-          <h1>硅谷后台</h1>
+          <h1>{this.props.t('title')}</h1>
         </div>
         {/* 
           defaultSelectedKeys: 只有第一次指定值有效, 后面再指定新的default值无效
