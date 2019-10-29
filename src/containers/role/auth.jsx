@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import PropTypes from 'prop-types'
 import {Form, Input, Tree} from 'antd'
+import {getI18n} from 'react-i18next'
 
 import menuList from '../../config/menu-config'
 
@@ -16,12 +17,30 @@ class AddForm extends Component {
     role: PropTypes.object
   }
 
+  state = {
+    checkedKeys: this.props.role.menus || [] // 初始值由传入的role决定
+  }
+
+  /* 
+  接收到了新的属性时调用 role
+  */
+  componentWillReceiveProps (nextProps) { 
+    this.setState({
+      checkedKeys: nextProps.role.menus
+    })
+  }
+
+  /* 
+  向外部组件提供所有勾选的key的数组
+  */
+  getMenus = () => this.state.checkedKeys
+
   renderTreeNodes = (menuList) => {
     return menuList.reduce((pre, item) => {
 
       // 向pre中<TreeNode>
       pre.push(
-        <TreeNode title={item.title} key={item.key}>
+        <TreeNode title={getI18n().t(item.title)} key={item.key}>
           {item.children ? this.renderTreeNodes(item.children) : null}
         </TreeNode>
       )
@@ -30,7 +49,10 @@ class AddForm extends Component {
   }
 
   onCheck = (checkedKeys) => {// checkedKeys所有勾选的key的数组
-
+    // 更新状态
+    this.setState({
+      checkedKeys
+    })
   }
 
 
@@ -39,7 +61,8 @@ class AddForm extends Component {
       labelCol: { span: 4 },
       wrapperCol: { span: 20 },
     }
-    const {roleName, menus} = this.props.role
+    const {roleName} = this.props.role
+    const {checkedKeys} = this.state
 
     return (
       <div>
@@ -51,7 +74,7 @@ class AddForm extends Component {
           checkable
           defaultExpandAll
           onCheck={this.onCheck}
-          checkedKeys={menus}
+          checkedKeys={checkedKeys}
         >
           <TreeNode title="平台权限" key="all">
             {this.renderTreeNodes(menuList)}

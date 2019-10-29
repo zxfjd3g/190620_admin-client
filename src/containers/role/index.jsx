@@ -24,7 +24,7 @@ roles
 */
 
 @connect(
-  state => ({roles: state.roles}),
+  state => ({roles: state.roles, username: state.user.user.username}),
   {getRolesAsync, addRoleAsync, updateRoleAsync}
 )
 class Role extends Component {
@@ -33,6 +33,8 @@ class Role extends Component {
     isShowAdd: false,
     isShowAuth: false
   }
+
+  authRef = React.createRef()
 
   columns = [
     {
@@ -83,8 +85,21 @@ class Role extends Component {
     })
   }
 
-  updateRole = () => {
+  updateRole = async () => {
+    const role = this.role
+    role.menus = this.authRef.current.getMenus()
+    role.auth_name = this.props.username
+    role.auth_time = Date.now()
 
+    const msg = await this.props.updateRoleAsync(role)
+    if (msg) {
+      message.error(msg)
+    } else {
+      message.success('授权成功')
+      this.setState({
+        isShowAuth: false
+      })
+    }
   }
 
   showAuth = (role) => {
@@ -136,7 +151,7 @@ class Role extends Component {
           onOk={this.updateRole}
           onCancel={this.hideUpdate}
         >
-          <Auth role={this.role || {}}/>
+          <Auth role={this.role || {}} ref={this.authRef}/>
         </Modal>
       </Card>
     )
