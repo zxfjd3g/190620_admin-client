@@ -38,12 +38,14 @@ class AddForm extends Component {
   renderTreeNodes = (menuList) => {
     return menuList.reduce((pre, item) => {
 
-      // 向pre中<TreeNode>
-      pre.push(
-        <TreeNode title={getI18n().t(item.title)} key={item.key}>
-          {item.children ? this.renderTreeNodes(item.children) : null}
-        </TreeNode>
-      )
+      if (!item.isPublic) {
+        // 向pre中<TreeNode>
+        pre.push(
+          <TreeNode title={getI18n().t(item.title)} key={item.key}>
+            {item.children ? this.renderTreeNodes(item.children) : null}
+          </TreeNode>
+        )
+      }
       return pre
     }, [])
   }

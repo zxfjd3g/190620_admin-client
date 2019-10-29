@@ -7,6 +7,7 @@ const menuList = [
     title: 'menus.home', // 菜单标题名称
     key: '/home', // 对应的path
     icon: 'home', // 图标名称
+    isPublic: true, // 不需要进行权限检查
   },
   {
     title: 'menus.products',

@@ -14,7 +14,7 @@ export default function categorys(state=initCategorys, action) {
     case RECEIVE_CATEGORYS:
       return action.data
     case ADD_CATEGORY:
-      return [action.data, ...state]
+      return [...state, action.data]
     case UPDATE_CATEGORY:
       return state.map(item => {
         if (item._id===action.data._id) {

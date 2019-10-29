@@ -1,6 +1,10 @@
 ## 1. React Hook/Hooks是什么?
     1). Hook是React 16.8.0版本增加的新特性/新语法
     2). 可以让你在函数组件中使用 state 以及其他的 React 特性
+    3). 好处:
+        编码更简洁
+        效率更高
+        组件复用性更好
 
 ## 2. 常用的几个Hook
     1). State Hook: React.useState()

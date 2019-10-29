@@ -12,73 +12,98 @@ import './index.less'
 
 const { SubMenu, Item } = Menu
 
-@connect(state => ({headerTitle: state.headerTitle}), {setHeaderTitle})
+@connect(
+  state => ({
+    headerTitle: state.headerTitle,
+    user: state.user.user
+  }), 
+  {setHeaderTitle}
+)
 @withRouter  // LeftNav = withRouter(LeftNav)
 @withTranslation() // 向组件传递 i18n对象 t函数
 class LeftNav extends Component {
 
+  /* 
+  判断当前登陆用户是否有此item对应的权限
+  1. 当前用户是admin
+  2. item是公开的
+  3. item的key在menus中
+  4. item的某个子item的key在menus中
+  */
+  hasAuth = (item) => {
+    const {username, role: {menus}} = this.props.user
+    if (username==='admin' || item.isPublic || menus.indexOf(item.key)!==-1) {
+      return true
+    } else if (item.children) { // 4. item的某个子item的key在menus中
+      return item.children.some(cItem => menus.indexOf(cItem.key)!==-1)
+    }
+
+    return false
+  }
 
   /* 
   使用reduce() + 递归调用 来生成多级菜单项的数组
   */
- getMenuNodes_reduce = (menuList) => {
+  getMenuNodes_reduce = (menuList) => {
 
-  // [1, 3, 4, 6, 5, 8]
-   return menuList.reduce((pre, item) => {
-     // 当前请求路径
-     const path = this.props.location.pathname
-     /* 
-      {
-        title: '首页', // 菜单标题名称
-        key: '/home', // 对应的path
-        icon: 'home', // 图标名称
-        children: []
-      }
-      */
-    // 向pre添加<Item>
-    if (!item.children) {
-      // 如果当前请求的就是item对应的路径, 将当前title保存到state中
-      if (path.indexOf(item.key)===0 && this.props.headerTitle!==item.title) {
-        this.props.setHeaderTitle(this.props.t(item.title))
-      }
+    // [1, 3, 4, 6, 5, 8]
+    return menuList.reduce((pre, item) => {
+      // 当前请求路径
+      const path = this.props.location.pathname
 
-      pre.push((
-        <Item key={item.key}>
-          <Link to={item.key} onClick={() => this.props.setHeaderTitle(this.props.t(item.title))}>
-            <Icon type={item.icon} />
-            <span>{this.props.t(item.title)}</span>
-          </Link>
-        </Item>
-      ))
-    } else { // 向pre添加<SubMenu>
-      // 判断item的children有没有一个child的key与path一致
-      
-      // const cItem = item.children.find(item => item.key===path)
-      // if (cItem) {
-      if (item.children.some(item => path.indexOf(item.key)===0)) {
-        this.openKey = item.key
-      }
-      
-
-      pre.push(
-        <SubMenu
-          key={item.key}
-          title={
-            <span>
-              <Icon type={item.icon} />
-              <span>{this.props.t(item.title)}</span>
-            </span>
+      if (this.hasAuth(item)) {
+        /* 
+        {
+          title: '首页', // 菜单标题名称
+          key: '/home', // 对应的path
+          icon: 'home', // 图标名称
+          children: []
+        }
+        */
+        // 向pre添加<Item>
+        if (!item.children) {
+          // 如果当前请求的就是item对应的路径, 将当前title保存到state中
+          if (path.indexOf(item.key)===0 && this.props.headerTitle!==item.title) {
+            this.props.setHeaderTitle(this.props.t(item.title))
           }
-        >
-          {this.getMenuNodes_reduce(item.children)} {/* 进行递归调用 */}
-        </SubMenu>
-      )
-    }
 
-    // 返回此次累计结果数据
-    return pre
-   }, [])
- }
+          pre.push((
+            <Item key={item.key}>
+              <Link to={item.key} onClick={() => this.props.setHeaderTitle(this.props.t(item.title))}>
+                <Icon type={item.icon} />
+                <span>{this.props.t(item.title)}</span>
+              </Link>
+            </Item>
+          ))
+        } else { // 向pre添加<SubMenu>
+          // 判断item的children有没有一个child的key与path一致
+          
+          // const cItem = item.children.find(item => item.key===path)
+          // if (cItem) {
+          if (item.children.some(item => path.indexOf(item.key)===0)) {
+            this.openKey = item.key
+          }
+          
+
+          pre.push(
+            <SubMenu
+              key={item.key}
+              title={
+                <span>
+                  <Icon type={item.icon} />
+                  <span>{this.props.t(item.title)}</span>
+                </span>
+              }
+            >
+              {this.getMenuNodes_reduce(item.children)} {/* 进行递归调用 */}
+            </SubMenu>
+          )
+        }
+      }
+      // 返回此次累计结果数据
+      return pre
+    }, [])
+  }
 
   /* 
   使用map() + 递归调用 来生成多级菜单项的数组
