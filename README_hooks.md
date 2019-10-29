@@ -46,12 +46,12 @@
 
 ## 5. Ref Hook
     1). Ref Hook可以在函数组件中存储/查找组件内的标签或任意其它数据
-    2). 语法: const refContainer = useRef(initialValue)
+    2). 语法: const containRef = useRef(initialValue)
     3). 作用:
         保存标签对象: 功能与React.createRef()一样
         保存任意数据: 
-            保存: refContainer.xxx = value
-            读取: refContainer.xxx
+            保存: xxxRef.current = value
+            读取: refContainer.current
 
 ## 6. Context Hook
     1). Context Hook可以在函数组件中读取到保存在Context对象中的value值数据

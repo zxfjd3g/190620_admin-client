@@ -19,27 +19,32 @@
   /*
   
    */
-  function A () {
+  function A (props) {
     const [count, setCount] = React.useState(1)
+    const h1Ref = React.useRef(null) // 创建一个用于保存<h1> ref容器
+    const timeRef = React.useRef(1)
+
 
     function test1() {
-
+      setCount(count => count + 1)
     }
 
     function test2() {
-
+      alert(h1Ref.current.innerHTML)
     }
 
     function test3() {
-      
+      const time = Date.now()
+      timeRef.current = time
     }
 
     function test4() {
+      alert(timeRef.current)
     }
 
     return (
       <div>
-        <h1>A组件: count={count}</h1>
+        <h1 ref={h1Ref}>A组件: count={count}</h1>
         <button onClick={test1}>数量增加1</button><br/>
         <button onClick={test2}>提示标题内容</button><br/>
         <button onClick={test3}>记录当前时间</button>
