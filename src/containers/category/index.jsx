@@ -138,7 +138,7 @@ function Category (props) {
   */
   function hideUpdate () {
     // 删除前面添加的属性
-    categoryRef.current = null
+    categoryRef.current = {}
     // 重置输入
     formRef.current.resetFields()
     // 隐藏更新界面
