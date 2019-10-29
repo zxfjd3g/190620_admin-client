@@ -8,13 +8,15 @@ import {
 /*
 用来添加角色的form组件
  */
+@Form.create()
 class AddForm extends PureComponent {
 
   static propTypes = {
     setForm: PropTypes.func.isRequired
   }
 
-  componentWillMount() {
+  constructor (props) {
+    super(props)
     this.props.setForm(this.props.form)
   }
 
@@ -44,4 +46,4 @@ class AddForm extends PureComponent {
   }
 }
 
-export default AddForm = Form.create()(AddForm)
+export default AddForm
