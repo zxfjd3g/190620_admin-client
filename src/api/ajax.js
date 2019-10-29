@@ -23,11 +23,13 @@ import 'nprogress/nprogress.css'
 import store from '../redux/store'
 import {removeUserToken} from '../redux/action-creators/user'
 import history from '../history'
+import { IS_DEV } from '../config'
 
 
 // 创建一个instance
 const instance = axios.create({
-  timeout: 10000 // 超时时间为10s
+  timeout: 10000, // 超时时间为10s
+  baseURL: IS_DEV ? '' : '/api'
 })
 
 // 添加请求拦截器
