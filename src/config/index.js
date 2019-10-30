@@ -9,3 +9,5 @@ export const PAGE_SIZE = 5
 
 // 图片的基础路径
 export const BASE_IMAGE_URL = 'http://localhost:4000/upload/'
+
+export const BASE_PATH = IS_DEV ? '' : '/api'

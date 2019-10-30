@@ -3,7 +3,7 @@ import PropTypes from 'prop-types'
 import { Upload, Icon, Modal, message } from 'antd'
 
 import { reqDeleteImg } from '../../api'
-import { BASE_IMAGE_URL } from '../../config'
+import { BASE_IMAGE_URL, BASE_PATH } from '../../config'
 
 function getBase64(file) {
   return new Promise((resolve, reject) => {
@@ -117,7 +117,7 @@ class PicturesWall extends React.Component {
     return (
       <div>
         <Upload
-          action="/manage/img/upload"
+          action={BASE_PATH + "/manage/img/upload"}
           listType="picture-card"
           fileList={fileList}
           name="image"
