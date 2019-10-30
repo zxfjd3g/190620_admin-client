@@ -14,13 +14,21 @@
 
 
 <script type="text/babel">
-
+  // 创建一个Context对象
+  const CountContext = React.createContext(0)
   function A () {
+    const [count, setCount] = React.useState(1)
+
+
     return (
       <div>
-        <h1>A组件</h1>
+        <h1>A组件: {count}</h1>
+        <button onClick={() => setCount(count => count + 1)}>增加1</button>
         <hr/>
-        <B/>
+        <CountContext.Provider value={count}>
+          <B/>
+        </CountContext.Provider>
+        
       </div>
     )
   }
@@ -38,8 +46,10 @@
   }
 
   function C () {
+    const count = React.useContext(CountContext)
+
     return (
-      <h1>C组件</h1>
+      <h1>C组件: {count}</h1>
     )
   }
 

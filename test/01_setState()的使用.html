@@ -38,15 +38,28 @@
 
     // count数量加1
     test1 = () => {
+      // this.setState({
+      //   count: this.state.count + 1
+      // })
+
+      this.setState(state => ({count: state.count + 1}))
     }
 
     // count数量变为3
     test2 = () => {
+      // this.setState(state => ({count: 3}))
+      this.setState({count: 3})
     }
 
     // 带回调的setState()
     test3 = () => {
-      
+      this.setState(
+        state => ({count: state.count + 1}),
+        () => { // 在状态改变且组件更新之后回调执行
+          console.log('setState callback()', this.state.count, this.refs.h1.innerText)
+        }
+      ) // setState()更新状态数据是异步的
+      console.log('setState()之后', this.state.count)
     }
 
     render() {
