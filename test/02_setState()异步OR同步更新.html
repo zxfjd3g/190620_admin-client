@@ -41,53 +41,90 @@
      react生命周期勾子中, setState()是异步更新状态
      */
     componentDidMount () {
+      console.log('setState()之前0', this.state.count) // 0
+      this.setState(state => ({count: state.count + 1}))
+      console.log('setState()之后0', this.state.count) // 0
     }
 
     /*
      react事件监听回调中, setState()是异步更新状态
      */
     update1 = () => {
+      console.log('setState()之前1', this.state.count) // 1
+      this.setState(state => ({count: state.count + 1}))
+      console.log('setState()之后1', this.state.count) // 1
     }
 
     /*
     定时器回调 / 原生事件监听回调 / promise回调 /...
      */
     update2 = () => {
+      setTimeout(() => {
+        console.log('setState()之前2', this.state.count) // 1
+        this.setState(state => ({count: state.count + 1})) // 在更新状态且重新渲染后才结束
+        console.log('setState()之后2', this.state.count) // 2
+      }, 100);
     }
     update3 = () => {
+      this.refs.count.onclick = () => {
+        console.log('setState()之前3', this.state.count) // 1
+        this.setState(state => ({count: state.count + 1}))
+        console.log('setState()之后3', this.state.count) // 2
+      }
     }
     update4 = () => {
+      Promise.resolve().then(() => {
+        console.log('setState()之前4', this.state.count) // 2
+        this.setState(state => ({count: state.count + 1}))
+        console.log('setState()之后4', this.state.count) // 3
+      })
     }
-
 
     /* 
     2次调用函数方式的setState()
     */
     update5 = () => {
+      console.log('setState()之前5', this.state.count) // 1
+      this.setState(state => ({count: state.count + 1})) // 函数开始不执行, 在真正准备更新状态数据的执行
+      this.setState(state => ({count: state.count + 1}))
+      console.log('setState()之后5', this.state.count) // 1
     }
 
     /*
     2次调用对象方式的setState()
     */
     update6 = () => {
+      console.log('setState()之前6', this.state.count)
+      this.setState({count: this.state.count + 1}) // 2  在setState()之前进行的计算
+      this.setState({count: this.state.count + 1}) // 2
+      console.log('setState()之后6', this.state.count)
     }
 
     /*
     先对象方式后函数方式的setState()
     */
     update7 = () => {
+      console.log('setState()之前7', this.state.count) // 1
+      this.setState({count: this.state.count + 1}) 
+      this.setState(state => ({count: state.count + 1}))
+      console.log('setState()之后7', this.state.count) // 1
     }
 
     /*
     先函数方式后对象方式的setState()
     */
     update8 = () => {
+      console.log('setState()之前7', this.state.count) // 1
+      this.setState(state => ({count: state.count + 1}))
+      this.setState({count: this.state.count + 1}) 
+      console.log('setState()之后7', this.state.count) // 1
     }
 
 
+    // render()在状态数据改变之后才会执行
     render() {
       const {count} = this.state
-      console.log('render()', count)
+      console.log('render()', count) // 0 1
       return (
         <div>
           <h2 ref='count'>{count}</h2>

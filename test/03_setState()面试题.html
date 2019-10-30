@@ -22,26 +22,26 @@
     componentDidMount() {
       this.setState({count: this.state.count + 1})
       this.setState({count: this.state.count + 1})
-      console.log(this.state.count)  // 2=>0
+      console.log(this.state.count)  
 
       this.setState(state => ({count: state.count + 1}))
       this.setState(state => ({count: state.count + 1}))
-      console.log(this.state.count) // 3=>0
+      console.log(this.state.count) 
 
       setTimeout(() => {
         this.setState({count: this.state.count + 1})
-        console.log('timeout', this.state.count)  // 10=>6
+        console.log('timeout', this.state.count)  
 
         this.setState({count: this.state.count + 1})
-        console.log('timeout', this.state.count) // 12=>>7
+        console.log('timeout', this.state.count) 
       }, 0)
 
       Promise.resolve().then(value => {
         this.setState({count: this.state.count + 1})
-        console.log('promise', this.state.count) // 6=>4
+        console.log('promise', this.state.count) 
 
         this.setState({count: this.state.count + 1})
-        console.log('promise', this.state.count) // 8=>5
+        console.log('promise', this.state.count) 
       })
     }
 
@@ -55,6 +55,7 @@
       )
     }
   }
+  // r0 0 0 r3 r4 p4 r5 p5  r6 t6 r7 t7
 
   ReactDOM.render(<StateTest/>, document.getElementById('example'))
 

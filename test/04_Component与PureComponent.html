@@ -36,7 +36,12 @@
       区别Component与PureComponent?
    */
 
-  class A extends React.Component {
+   const obj = {m: 1}
+   obj.m = 2
+   
+
+
+  class A extends React.PureComponent {
 
     state = {
       m1: {
@@ -46,8 +51,19 @@
     }
 
     test1 = () => {
-      
+      const m1 = this.state.m1
+      m1.count = 2
+      this.setState({
+        m1: {count: 1}
+        // m1
+        // n1: 2
+      })
     }
+
+    /* shouldComponentUpdate () {
+      console.log('A shouldComponentUpdate()')
+      return true
+    } */
 
     render() {
       console.log('A render()')
@@ -71,9 +87,14 @@
 
     test1 = () => {
       this.setState({
-        m2: {count: 2}
+        // m2: {count: 3}
       })
     }
+
+    shouldComponentUpdate (nextProps, nextState) {
+      console.log('B shouldComponentUpdate()')
+      return !(nextProps.m1===this.props.m1 && nextState.m2===this.state.m2)
+    } 
 
     render() {
       console.log('B render()')
