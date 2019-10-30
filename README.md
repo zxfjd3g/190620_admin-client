@@ -1,4 +1,4 @@
-# 总结
+# React项目总结
 
 ## 所有的工具包
     react & react-dom & prop-types: react基础包
@@ -36,6 +36,3 @@
     14). 利用react-draft-wysiwyg实现富文本编辑器管理商品详情
     15). 实现列表数据的纯前台分页和基于后台的分页(带搜索)
     16). 利用babel-plugin-import实现antd的按需引入打包
-
-
-
