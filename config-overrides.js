@@ -1,4 +1,5 @@
-const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy} = require('customize-cra');
+const {override, fixBabelImports, addLessLoader, addDecoratorsLegacy, addWebpackAlias} = require('customize-cra');
+const {resolve} = require('path')
 
 module.exports = override(
   // 配置babel-plugin-import ==> 只打包import模块及css
